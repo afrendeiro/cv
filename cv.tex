@@ -1,0 +1,241 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% "ModernCV" CV and Cover Letter
+% LaTeX Template
+% Version 1.1 (9/12/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Xavier Danaux (xdanaux@gmail.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+% Important note:
+% This template requires the moderncv.cls and .sty files to be in the same 
+% directory as this .tex file. These files provide the resume style and themes 
+% used for structuring the document.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%   PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt,a4paper,roman]{moderncv} % Font sizes: 10, 11, or 12; paper sizes: a4paper, letterpaper, a5paper, legalpaper, executivepaper or landscape; font families: sans or roman
+
+
+\moderncvstyle{classic} % CV theme - options include: 'casual' (default), 'classic', 'oldstyle' and 'banking'
+\moderncvcolor{black} % CV color - options include: 'blue' (default), 'orange', 'green', 'red', 'purple', 'grey' and 'black'
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage[scale=0.75]{geometry} % Reduce document margins
+%\setlength{\hintscolumnwidth}{3cm} % Uncomment to change the width of the dates column
+%\setlength{\makecvtitlenamewidth}{10cm} % For the 'classic' style, uncomment to adjust the width of the space allocated to your name
+
+
+%\usepackage[english]{babel}
+%\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{color}
+\usepackage[english]{babel}
+
+%----------------------------------------------------------------------------------------
+%   NAME AND CONTACT INFORMATION SECTION
+%----------------------------------------------------------------------------------------
+
+\firstname{André} % Your first name
+\familyname{F. Rendeiro} % Your last name
+
+% All information in this block is optional, comment out any lines you don't need
+\title{Curriculum Vitae}
+%\address{Lazarettgasse, 14/B1114 1090 Vienna, Austria}
+%\mobile{+43 6502011854}
+%\phone{(000) 111 1112}
+%\fax{(000) 111 1113}
+\email{arendeiro@cemm.oeaw.ac.at}
+\homepage{andre-rendeiro.me} % The first argument is the url for the clickable link, the second argument is the url displayed in the template - this allows special characters to be displayed such as the tilde in this example
+%\extrainfo{additional information}
+%\photo[70pt][0.4pt]{/home/afr/Pictures/me.png} % The first bracket is the picture height, the second is the thickness of the frame around the picture (0pt for no frame)
+%\quote{"A witty and playful quotation" - John Smith}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\makecvtitle % Print the CV title
+
+%----------------------------------------------------------------------------------------
+%   CURRENT POSITION
+%----------------------------------------------------------------------------------------
+
+\section{Current position}
+\cventry{2014-Present}
+	{PhD student}{CeMM - Research Centre for Molecular Medicine of the Austrian Academy of Sciences}{Vienna, Austria}
+	{Christoph Bock's lab}{}
+
+%----------------------------------------------------------------------------------------
+%   EDUCATION SECTION
+%----------------------------------------------------------------------------------------
+
+\section{Education}
+
+	\cventry{2012-2014}{Masters in Molecular and Cell Biology}{University of Aveiro}{Portugal}{}{}
+
+	\subsection{Thesis}
+		\cvitem{Title}{\textit{Regulation of Oikopleura dioica's alternative cell cycle modes}}
+		\cvitem{Supervisor}{Professor Eric Thompson}
+
+	\cventry{2008-2012}{Bachelor in Biology}{University of Aveiro}{Portugal}{}{}
+%----------------------------------------------------------------------------------------
+%   WORK EXPERIENCE SECTION
+%----------------------------------------------------------------------------------------
+
+\section{Experience}
+
+	\subsection{Scientific Activity}
+
+	\cventry{2013-2014}
+		{The role of E2F regulation and H3K79 methylation in \textit{Oikopleura dioica}'s cell cycle modes}
+		{Sars International Centre for Marine Molecular Biology, Bergen, Norway}{Eric Thompson's lab}
+		{}
+		{I investigated the molecular mechanisms of alternative cell cycle modes (particularly endocycles) in the chordate \textit{Oikopleura dioica} by performing ChIP-seq on transcription factors involved in cell cycle regulation (E2F). I also studied the role of histone 3 lysine 79 methylation on cell cycle regulation through functional studies on its methyltransferase, Dot1.}
+	
+	\cventry{2011-2012}
+		{Identification of cis-regulatory elements in \textit{Nematostella vectensis} using ChIP-seq}
+		{Dept. of Molecular Evolution and Development, University of Vienna, Austria}{Uli Technau's lab}
+		{}
+		{I performed ChIP-seq of chromatin modifications and other regulatory proteins over several developmental stages of \textit{Nematostella vectensis}, constructed a map of chromatin states and predicted cis-regulatory elements genome-wide. I also tested the function of some of these regions \textit{in vivo} in a reporter assay.}
+
+	\cventry{2010-2011}
+		{Tol2-mediated zebrafish transgenesis for studies in protein mistranslation}
+		{RNA Biology Laboratory, Biology Department, University of Aveiro, Portugal}{Manuel Santos' lab}
+		{}
+		{I created transgenic zebrafish that were used as a model for studies in neurodegeneration through protein aggregation. This was caused by increasing the level of translational error (mistranslation) during endogenous protein synthesis. I learned to build plasmid constructs, microinject them in zebrafish and screen for phenotypes.}
+
+	\cventry{2009-2010}
+		{Transciptome studies with microarrays in heat-shocked yeast}
+		{RNA Biology Laboratory, Biology Department, University of Aveiro, Portugal}{Manuel Santos' lab}
+		{}
+		{I was involved in the analysis of microarray expression data from yeast under various treatments. I learned to pre-process, normalize and explore data programmatically to detect significant differential gene expression, clustering genes and exploring their gene ontology across treatments.}
+
+%----------------------------------------------------------------------------------------
+%   AWARDS SECTION
+%----------------------------------------------------------------------------------------
+
+\section{Awards/Scholarships}
+
+	\cventry{2013-2014}
+		{Erasmus studies mobility program scholarship}{}{}{}{European Commission}
+	\cventry{2011-2012}
+		{Erasmus intership mobility program scholarship}{}{}{}{European Commission}
+	\cventry{2009-2010}
+		{'Integration into Research' Grant}{}{}{}{Science and Technology Foundation - Portugal}
+
+%----------------------------------------------------------------------------------------
+%   PUBLICATIONS
+%----------------------------------------------------------------------------------------
+
+\section{Publications}
+
+	\cvitem{Peer reviewed}{
+		\begin{enumerate}
+			\item Michaela Schwaiger, Anna Schönauer, \underline{André F. Rendeiro}, Carina Pribitzer, Alexandra Schauer, Anna Gilles, Johannes Schinko, David Fredman, and Ulrich Technau. \textbf{Evolutionary conservation of the eumetazoan gene regulatory landscape}. Genome Research, 1–12. doi:10.1101/gr.162529.113
+		\end{enumerate}
+	}
+	\cvitem{Non-peer reviewed}{
+		\begin{enumerate}
+			\item \underline{André F. Rendeiro}, Pavla  Navratilova, Eric Thompson (2014). \textbf{Chromatin preparation for ChIP-seq in \textit{Oikopleura dioica}}. figshare. http://dx.doi.org/10.6084/m9.figshare.884562
+		\end{enumerate}
+	}
+
+\section{Communications}
+	
+	\cvitem{Conference talks}{
+		\begin{enumerate}
+			\item Michaela Schwaiger, Anna Schönauer, \underline{André F. Rendeiro}, Carina Pribitzer, Alexandra Schauer, Anna Gilles, Johannes Schinko, David Fredman, and Ulrich Technau. \textbf{Evolutionary conservation of the eumetazoan gene regulatory landscape}. \textit{XVIII Portuguese Genetics Society Meeting}, June 2013. Porto, Portugal
+		\end{enumerate}
+	}
+	\cvitem{Conference posters}{
+		\begin{enumerate}
+			\item Anna Schönauer, \underline{André F. Rendeiro}, Michaela Schwaiger, Ulrich Technau. \textbf{Identification of cis-regulatory elements in the sea anemone \textit{Nematostella vectensis}}. \textit{Evonet Symposium}, September 2012, Vienna Austria. http://dx.doi.org/10.6084/m9.figshare.107026
+		\end{enumerate}
+	}
+	
+%----------------------------------------------------------------------------------------
+%   SKILLS SECTION
+%----------------------------------------------------------------------------------------
+
+\section{Skills}
+
+\subsection{Computational}
+\cvitemwithcomment{Programming languages}{\textnormal{Python, R, Perl, C/C++}}{In this order of proficiency}
+\cvitem{Web development}{HTML, CSS, PHP, Javascript, Django, Wordpress}
+\cvitem{Bioinformatics}{ChIP-seq data analysis; gene expression data analysis (microarray and RNA-seq); \textit{de novo} transcriptome assembly and annotation; genetic variant detection and annotation; implementation of Hidden Markov Models (HMM) methods}
+
+\subsection{Molecular Biology}
+\cvitem{Techniques}{Chromatin imunoprecipitation (ChIP), Illumina library preparation, PCR, qRT-PCR, SDM PCR, molecular cloning, zebrafish and \textit{Nematostella} microinjection, immunohistochemistry/fluorecence and confocal microscopy, Western and Northern blotting}
+
+%----------------------------------------------------------------------------------------
+%   EXTRA COURSES
+%----------------------------------------------------------------------------------------
+\section{Advanced courses}
+\cvitem{2011}{Scientific writing course (Maria Dornelas - University of St. Andrews)}
+
+%----------------------------------------------------------------------------------------
+%   EXTRA COURSES
+%----------------------------------------------------------------------------------------
+
+\section{Associative/Administrative positions}
+\cvitem{2010-2012}{Member of the Biology department counsel, University of Aveiro}
+\cvitem{2009-2011}{Member of the undergraduate Biology committee, University of Aveiro}
+
+%----------------------------------------------------------------------------------------
+%   LANGUAGES SECTION
+%----------------------------------------------------------------------------------------
+
+\section{Languages}
+
+\cvitemwithcomment{Portuguese}{\textnormal{Native speaker}}{}
+\cvitemwithcomment{English}{\textnormal{Very good}}{Fluent}
+\cvitemwithcomment{Spanish}{\textnormal{Conversational}}{}
+\cvitemwithcomment{German}{\textnormal{Basic}}{Basic words and phrases only}
+\cvitemwithcomment{French}{\textnormal{Basic}}{Basic words and phrases only}
+
+%----------------------------------------------------------------------------------------
+%   INTERESTS SECTION
+%----------------------------------------------------------------------------------------
+
+\section{Other interests}
+
+\cvlistdoubleitem{Classical singing}{Opera}
+\cvlistdoubleitem{Choir conducting}{Piano}
+\cvlistdoubleitem{Literature}{Cinema}
+\cvlistitem{Coding websites and web apps}
+
+%----------------------------------------------------------------------------------------
+%   COVER LETTER
+%----------------------------------------------------------------------------------------
+
+% To remove the cover letter, comment out this entire block
+
+%\clearpage
+
+%\recipient{HR Departmnet}{Corporation\\123 Pleasant Lane\\12345 City, State} % Letter recipient
+%\date{\today} % Letter date
+%\opening{Dear Sir or Madam,} % Opening greeting
+%\closing{Sincerely yours,} % Closing phrase
+%\enclosure[Attached]{curriculum vit\ae{}} % List of enclosed documents
+
+%\makelettertitle % Print letter title
+
+%\lipsum[1-3] % Dummy text
+
+%\makeletterclosing % Print letter signature
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
