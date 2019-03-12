@@ -32,9 +32,8 @@
 \usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
 
 \usepackage[scale=0.80]{geometry} % Reduce document margins
-%\setlength{\hintscolumnwidth}{3cm} % Uncomment to change the width of the dates column
+\setlength{\hintscolumnwidth}{2cm} % Uncomment to change the width of the dates column
 %\setlength{\makecvtitlenamewidth}{10cm} % For the 'classic' style, uncomment to adjust the width of the space allocated to your name
-
 
 %\usepackage[english]{babel}
 %\usepackage{hyperref}
@@ -42,7 +41,8 @@
 \usepackage[T1]{fontenc}
 \usepackage{color}
 \usepackage[english]{babel}
-
+\usepackage{etaremune}  % for reverse enumeration
+\usepackage{enumitem} % for different syle in itemize
 
 % footer page count
 \usepackage{lastpage}
@@ -65,6 +65,7 @@
 %\phone{(000) 111 1112}
 %\fax{(000) 111 1113}
 \email{arendeiro@cemm.at}
+%\email{afrendeiro@gmail.com}
 \homepage{andre-rendeiro.com} % The first argument is the url for the clickable link, the second argument is the url displayed in the template - this allows special characters to be displayed such as the tilde in this example
 %\extrainfo{additional information}
 %\photo[70pt][0.4pt]{/home/afr/Pictures/me.png} % The first bracket is the picture height, the second is the thickness of the frame around the picture (0pt for no frame)
@@ -82,7 +83,7 @@
 
 \section{Current position}
 \cventry{2014-present}
-    {PhD student}{CeMM Research Centre for Molecular Medicine of the Austrian Academy of Sciences}{Vienna, Austria}
+    {PhD student}{CeMM Research Centre for Molecular Medicine of the Austrian Academy of Sciences}{Austria}
     {Christoph Bock's lab}{}
 
 %----------------------------------------------------------------------------------------
@@ -101,10 +102,12 @@
 
 \section{Key publications}
     \cvitem{}{
+        \begin{itemize}[label={-}, labelindent=0pt ,labelwidth=0cm, labelsep*=1em, leftmargin =! , itemindent = 0pt, style = sameline, topsep=0pt,itemsep=0pt,partopsep=0pt,parsep=0pt]
         \item Christian Schmidl*, Gregory I Vladimer*, \underline{André F. Rendeiro}*, Susanne Schnabl* \textif{et al.}, \textbf{Combined chemosensitivity and chromatin profiling prioritizes drug combinations in CLL}. Nature Chemical Biology (2019) doi:10.1038/s41589-018-0205-2
         \item Paul Datlinger, \underline{André F. Rendeiro}*, Christian Schmidl* \textif{et al.}, \textbf{Pooled CRISPR screening with single-cell transcriptome readout}. Nature Methods (2017) doi:10.1038/nmeth.4177
         \item \underline{André F. Rendeiro}*, Christian Schmidl*, Jonathan C. Strefford* \textif{et al.}, \textbf{Chromatin accessibility maps of chronic lymphocytic leukaemia identify subtype-specific epigenome signatures and transcription regulatory networks}. Nature Communications (2016) doi:10.1038/ncomms11938
         \item Christian Schmidl*, \underline{André F. Rendeiro}*,  Nathan C Sheffield, Christoph Bock. 2015. \textbf{ChIPmentation: fast, robust, low-input ChIP-seq for histones and transcription factors}. Nature Methods  (2016) doi:10.1038/nmeth.3542
+        \end{itemize}
     }
     \cvitem{}{
         * \textit{equal contributions}
@@ -129,6 +132,7 @@
 
 \section{All publications}
     \cvitem{Peer reviewed}{
+        \begin{etaremune}[topsep=0pt,itemsep=2pt,partopsep=0pt,parsep=0pt]
         \item Christian Schmidl*, Gregory I Vladimer*, \underline{André F. Rendeiro}*, Susanne Schnabl*, Thomas Krausgruber, Christina Taubert, Nikolaus Krall, Tea Pemovska, Mohammad Araghi, Berend Snijder, Rainer Hubmann, Anna Ringler, Kathrin Runggatscher, Dita Demirtas, Oscar Lopez de la Fuente, Martin Hilgarth, Cathrin Skrabs, Edit Porpaczy, Michaela Gruber, Gregor Hoermann, Stefan Kubicek, Philipp B Staber, Medhat Shehata, Giulio Superti-Furga, Ulrich Jäger, Christoph Bock. \textbf{Combined chemosensitivity and chromatin profiling prioritizes drug combinations in CLL}. Nature Chemical Biology. (2019) doi:10.1038/s41589-018-0205-2
         \item Tahsin Stefan Barakat, Florian Halbritter, Man Zhang, \underline{André F. Rendeiro}, Christoph Bock, Ian Chambers. (2017). \textbf{Functional dissection of the enhancer repertoire in human embryonic stem cells}. Cell Stem Cell. (2018) 10.1016/j.stem.2018.06.014
         \item Paul Datlinger, \underline{André F. Rendeiro}*, Christian Schmidl*, Thomas Krausgruber, Peter Traxler, Johanna Klughammer, Linda C Schuster, Amelie Kuchler, Donat Alpar, Christoph Bock. \textbf{Pooled CRISPR screening with single-cell transcriptome readout}. Nature Methods. (2017) doi:10.1038/nmeth.4177
@@ -137,32 +141,39 @@
         \item \underline{André F. Rendeiro}*, Christian Schmidl*, Jonathan C. Strefford*, Renata Walewska, Zadie Davis, Matthias Farlik, David Oscier, Christoph Bock. \textbf{Chromatin accessibility maps of chronic lymphocytic leukaemia identify subtype-specific epigenome signatures and transcription regulatory networks}. Nature Communications. 7:11938 (2016) doi:10.1038/ncomms11938
         \item Christian Schmidl*, \underline{André F. Rendeiro}*,  Nathan C Sheffield, Christoph Bock. 2015. \textbf{ChIPmentation: fast, robust, low-input ChIP-seq for histones and transcription factors}. Nature Methods. doi:10.1038/nmeth.3542
         \item Michaela Schwaiger, Anna Schönauer, \underline{André F. Rendeiro}, Carina Pribitzer, Alexandra Schauer, Anna Gilles, Johannes Schinko, David Fredman, and Ulrich Technau. \textbf{Evolutionary conservation of the eumetazoan gene regulatory landscape}. Genome Research, 1–12. doi:10.1101/gr.162529.113
+        \end{etaremune}
     }
     \cvitem{}{
         * \textit{equal contributions}
     }
     \cvitem{Non-peer reviewed}{
+        \begin{etaremune}[topsep=0pt,itemsep=2pt,partopsep=0pt,parsep=0pt]
         \item Sara Sdelci, \underline{André F. Rendeiro}, Philipp Rathert, Gerald Hofstaetter, Anna Ringler, Herwig P Moll, Wanhui You, Kristaps Klavins, Bettina Guertl, Matthias Farlik, Sandra Schick, Freya Klepsch, Matthew Oldach, Pisanu Buphamalai, Fiorella Schischlik, Peter Majek, Katja Parapatics, Christian Schmidl, Michael Schuster, Thomas Penz, Dennis L Buckley, Otto Hudecz, Richard Imre, Robert Kralovics, Keiryn L Bennett, Andre C Mueller, Karl Mechtler, Joerg Menche, James E Bradner, Georg E Winter, Emilio Casanova, Christoph Bock, Johannes Zuber, Stefan Kubicek, \textbf{MTHFD1 is a genetic interactor of BRD4 and links folate metabolism to transcriptional regulation}. BiorXiv (2018) doi:10.1101/439422
         \item Alexander Swoboda, Robert Soukup, Katharina Kinslechner, Bettina Wingelhofer, David Schoerghofer, Christina Sternberg, Ha Pham, Maria Vallianou, Jaqueline Horvath, Dagmar Stoiber, Lukas Kenner, Lionel Larue, Valeria Poli, Friedrich Beermann, Takashi Yokota, Stefan Kubicek, Thomas Krausgruber, \underline{André F. Rendeiro}, Christoph Bock, Rainer Zenz, Boris Kovacic, Fritz Aberger, Markus Hengstschlaeger, Peter Petzelbauer, Mario Mikula, Richard Moriggl. \textbf{STAT3 promotes melanoma metastasis by CEBP-induced repression of the MITF pigmentation pathway}. BiorXiv (2018) doi: 10.1101/422832
         \item \underline{André F. Rendeiro}, Pavla  Navratilova, Eric Thompson (2014). \textbf{Chromatin preparation for ChIP-seq in \textit{Oikopleura dioica}}. figshare. http://dx.doi.org/10.6084/m9.figshare.884562
+        \end{etaremune}
     }
 
 \section{Communications}
     \cvitem{Conference talks}{
-            \item \underline{André F. Rendeiro}. \textbf{Chromatin mapping and single-cell immune profiling define the temporal dynamics of Ibrutinib response in CLL}. \textit{Frontiers in Single Cell Genomics Meeting - Cold Spring Harbour Asia}, November 2018, Suzhou, China.
-            \item \underline{André F. Rendeiro}. \textbf{CROP-seq: updates on the single cell CRISPR screening method}. \textit{10X User Group Meeting 2018}, April 2018, EMBL, Heidelberg, Germany.
-            \item \underline{André F. Rendeiro}. \textbf{Pooled CRISPR screening with single-cell transcriptome readout}. \textit{SLAS 2018}, February 2018, San Diego, USA.
-            %\item \underline{André F. Rendeiro}. \textbf{Pooled CRISPR screening with single-cell transcriptome readout}. \textit{Illumina User Group Meeting 2017}, February 2018, Switzerland.
-            \item \underline{André F. Rendeiro}. \textbf{Large-scale ATAC-seq profiling to identify disease subtypes, regulatory networks and monitoring treatment in CLL}. \textit{Illumina User Group Meeting 2017}, February 2018, Switzerland.
-            \item Paul Datlinger, \underline{André F. Rendeiro}*, Christian Schmidl*, Thomas Krausgruber, Peter Traxler, Johanna Klughammer, Linda C Schuster, Amelie Kuchler, Donat Alpar, Christoph Bock. \textbf{Pooled CRISPR screening with single-cell transcriptome readout}. \textit{Ascona Workshop 2017}, May 2017, Ascona, Switzerland.
-            \item \underline{André F. Rendeiro}. \textbf{Large-scale chromatin profiling uncovers heterogeneity of molecular phenotypes and gene regulatory networks of chronic lymphocytic leukemia}. \textit{Illumina User Meeting}, February 2017, Cologne, Germany.
-            \item Michaela Schwaiger, Anna Schönauer, \underline{André F. Rendeiro}, Carina Pribitzer, Alexandra Schauer, Anna Gilles, Johannes Schinko, David Fredman, and Ulrich Technau. \textbf{Evolutionary conservation of the eumetazoan gene regulatory landscape}. \textit{XVIII Portuguese Genetics Society Meeting}, June 2013. Porto, Portugal
+        \begin{etaremune}[topsep=0pt,itemsep=2pt,partopsep=0pt,parsep=0pt]
+        \item \underline{André F. Rendeiro}. \textbf{Chromatin mapping and single-cell immune profiling define the temporal dynamics of Ibrutinib response in CLL}. \textit{Frontiers in Single Cell Genomics Meeting - Cold Spring Harbour Asia}, November 2018, Suzhou, China.
+        \item \underline{André F. Rendeiro}. \textbf{CROP-seq: updates on the single cell CRISPR screening method}. \textit{10X User Group Meeting 2018}, April 2018, EMBL, Heidelberg, Germany.
+        \item \underline{André F. Rendeiro}. \textbf{Pooled CRISPR screening with single-cell transcriptome readout}. \textit{SLAS 2018}, February 2018, San Diego, USA.
+        %\item \underline{André F. Rendeiro}. \textbf{Pooled CRISPR screening with single-cell transcriptome readout}. \textit{Illumina User Group Meeting 2017}, February 2018, Switzerland.
+        \item \underline{André F. Rendeiro}. \textbf{Large-scale ATAC-seq profiling to identify disease subtypes, regulatory networks and monitoring treatment in CLL}. \textit{Illumina User Group Meeting 2017}, February 2018, Switzerland.
+        \item Paul Datlinger, \underline{André F. Rendeiro}*, Christian Schmidl*, Thomas Krausgruber, Peter Traxler, Johanna Klughammer, Linda C Schuster, Amelie Kuchler, Donat Alpar, Christoph Bock. \textbf{Pooled CRISPR screening with single-cell transcriptome readout}. \textit{Ascona Workshop 2017}, May 2017, Ascona, Switzerland.
+        \item \underline{André F. Rendeiro}. \textbf{Large-scale chromatin profiling uncovers heterogeneity of molecular phenotypes and gene regulatory networks of chronic lymphocytic leukemia}. \textit{Illumina User Meeting}, February 2017, Cologne, Germany.
+        \item Michaela Schwaiger, Anna Schönauer, \underline{André F. Rendeiro}, Carina Pribitzer, Alexandra Schauer, Anna Gilles, Johannes Schinko, David Fredman, and Ulrich Technau. \textbf{Evolutionary conservation of the eumetazoan gene regulatory landscape}. \textit{XVIII Portuguese Genetics Society Meeting}, June 2013. Porto, Portugal
+        \end{etaremune}
     }
     \cvitem{Conference posters}{
-            \item Christian Schmidl*, \underline{André F. Rendeiro}*, Gregory I Vladimer*, Thomas Krausgruber, Tea Pemovska, Nikolaus Krall, Berend Snijder, Oscar Lopez de la Fuente, Anna Ringler, Stefan Kubicek, Philipp B. Staber, Medhat Shehata, Giulio Superti-Furga, Ulrich Jäger, Christoph Bock. \textbf{Combined chromatin accessibility and chemosensitivity profiling identifies targetable pathways and rational drug combinations in Ibrutinib-treated chronic lymphocytic leukemia}. \textit{Young Scientist Association of the Medical University of Vienna PhD Symposia}, June 2017, Vienna, Austria.
-            \item \underline{André F. Rendeiro}*, Christian Schmidl*, Jonathan C. Strefford*, Renata Walewska, Zadie Davis, Matthias Farlik, David Oscier, Christoph Bock. \textbf{Large-scale chromatin profiling uncovers heterogeneity of molecular phenotypes and gene regulatory networks of chronic lymphocytic leukemia}. \textit{Young Scientist Association of the Medical University of Vienna PhD Symposia}, June 2016, Vienna, Austria. https://doi.org/10.6084/m9.figshare.3479528.v1 \textbf{Best poster award in "Malignant Diseases" category}.
-            \item \underline{André F. Rendeiro}*, Christian Schmidl*, Jonathan C. Strefford*, Renata Walewska, Zadie Davis, Matthias Farlik, David Oscier, Christoph Bock. \textbf{Large-scale chromatin profiling uncovers heterogeneity of molecular phenotypes and gene regulatory networks of chronic lymphocytic leukemia}. \textit{Keystone Symposia on Chromatin and Epigenetics}, March 2016, Whistler, Vancouver, Canada. https://doi.org/10.6084/m9.figshare.3479528.v1
-            \item Anna Schönauer, \underline{André F. Rendeiro}, Michaela Schwaiger, Ulrich Technau. \textbf{Identification of cis-regulatory elements in the sea anemone \textit{Nematostella vectensis}}. \textit{Evonet Symposium}, September 2012, Vienna Austria. http://dx.doi.org/10.6084/m9.figshare.107026
+        \begin{etaremune}[topsep=0pt,itemsep=2pt,partopsep=0pt,parsep=0pt]
+        \item Christian Schmidl*, \underline{André F. Rendeiro}*, Gregory I Vladimer*, Thomas Krausgruber, Tea Pemovska, Nikolaus Krall, Berend Snijder, Oscar Lopez de la Fuente, Anna Ringler, Stefan Kubicek, Philipp B. Staber, Medhat Shehata, Giulio Superti-Furga, Ulrich Jäger, Christoph Bock. \textbf{Combined chromatin accessibility and chemosensitivity profiling identifies targetable pathways and rational drug combinations in Ibrutinib-treated chronic lymphocytic leukemia}. \textit{Young Scientist Association of the Medical University of Vienna PhD Symposia}, June 2017, Vienna, Austria.
+        \item \underline{André F. Rendeiro}*, Christian Schmidl*, Jonathan C. Strefford*, Renata Walewska, Zadie Davis, Matthias Farlik, David Oscier, Christoph Bock. \textbf{Large-scale chromatin profiling uncovers heterogeneity of molecular phenotypes and gene regulatory networks of chronic lymphocytic leukemia}. \textit{Young Scientist Association of the Medical University of Vienna PhD Symposia}, June 2016, Vienna, Austria. https://doi.org/10.6084/m9.figshare.3479528.v1 \textbf{Best poster award in "Malignant Diseases" category}.
+        \item \underline{André F. Rendeiro}*, Christian Schmidl*, Jonathan C. Strefford*, Renata Walewska, Zadie Davis, Matthias Farlik, David Oscier, Christoph Bock. \textbf{Large-scale chromatin profiling uncovers heterogeneity of molecular phenotypes and gene regulatory networks of chronic lymphocytic leukemia}. \textit{Keystone Symposia on Chromatin and Epigenetics}, March 2016, Whistler, Vancouver, Canada. https://doi.org/10.6084/m9.figshare.3479528.v1
+        \item Anna Schönauer, \underline{André F. Rendeiro}, Michaela Schwaiger, Ulrich Technau. \textbf{Identification of cis-regulatory elements in the sea anemone \textit{Nematostella vectensis}}. \textit{Evonet Symposium}, September 2012, Vienna Austria. http://dx.doi.org/10.6084/m9.figshare.107026
+        \end{etaremune}
     }
     \cvitem{}{
         * \textit{equal contributions}
@@ -261,6 +272,13 @@
 \cvlistdoubleitem{Ballroom dancing}{Cinema}
 \cvlistdoubleitem{Singing}{Opera}
 \cvlistdoubleitem{Choral conducting}{Piano playing}
+
+
+%----------------------------------------------------------------------------------------
+%   TIMESTAMP
+%----------------------------------------------------------------------------------------
+\bigskip
+\item{\textit{Updated on 2019/03/12}}
 
 
 %----------------------------------------------------------------------------------------
