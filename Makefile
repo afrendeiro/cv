@@ -16,7 +16,8 @@ requirements:
 	sudo apt install texlive-latex-extra; \
 	tlmgr install etaremune
 
-pdf:
+pdf: clean
+	pdflatex --output-format pdf cv.tex;
 	pdflatex --output-format pdf cv.tex
 
 clean:
