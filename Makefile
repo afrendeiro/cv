@@ -18,7 +18,8 @@ requirements:
 
 pdf: clean
 	pdflatex --output-format pdf cv.tex;
-	pdflatex --output-format pdf cv.tex
+	pdflatex --output-format pdf cv.tex;
+	cp cv.pdf ../afrendeiro.github.io/
 
 clean:
 	rm cv.aux cv.out cv.log
