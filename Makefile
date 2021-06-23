@@ -17,12 +17,15 @@ requirements:
 	tlmgr install etaremune
 
 pdf: clean
+	python -u update_pubs.py
 	pdflatex --output-format pdf cv.tex;
 	pdflatex --output-format pdf cv.tex;
 	cp cv.pdf ../afrendeiro.github.io/
 
+	make clean
+
 clean:
-	rm cv.aux cv.out cv.log
+	-rm cv.aux cv.out cv.log;
 
 all: requirements pdf
 
