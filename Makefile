@@ -25,15 +25,27 @@ pdf: clean
 		file, $(FILES), \
 		pdflatex --output-dir build/pdf --output-format pdf source/$(file).tex \
 	;)
-	cp build/pdf/cv.pdf ../afrendeiro.github.io/
-	cp publications.csv ../afrendeiro.github.io/
+	# # Run twice to fix list ordering with etanumer :/
+	$(foreach \
+		file, $(FILES), \
+		pdflatex --output-dir build/pdf --output-format pdf source/$(file).tex \
+	;)
 	make clean
 
 clean:
+	-rm source/cv*.tex
+	-rm source/lop*.tex
 	-rm build/pdf/*.aux;
 	-rm build/pdf/*.log;
 	-rm build/pdf/*.out
 
+web: pdf
+	cp build/pdf/cv.pdf ../afrendeiro.github.io/
+	cd ../afrendeiro.github.io/; \
+	git add cv.pdf; \
+	git commit -m 'update publications'; \
+	git push origin gh-pages
+
 all: requirements pdf
 
-.PHONY: requirements pdf clean
+.PHONY: requirements pdf clean web
