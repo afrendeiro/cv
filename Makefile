@@ -16,40 +16,23 @@ requirements:
 	sudo apt install texlive-latex-extra; \
 	tlmgr install etaremune
 
+FILES = cv resume lop pub_highlight references # cover_letter resume_long teaching_strategy
+
 pdf: clean
+	mkdir -p build/pdf
 	python -u update_pubs.py
-	pdflatex --output-format pdf cv.tex;
-	pdflatex --output-format pdf cv.tex;
-	cp cv.pdf ../afrendeiro.github.io/
-
-	pdflatex --output-format pdf resume.tex;
-	pdflatex --output-format pdf resume.tex
-
-	pdflatex --output-format pdf resume_long.tex;
-	pdflatex --output-format pdf resume_long.tex
-
-	pdflatex --output-format pdf lop.tex;
-	pdflatex --output-format pdf lop.tex
-
-	pdflatex --output-format pdf pub_highlight.tex;
-	pdflatex --output-format pdf pub_highlight.tex
-
-	pdflatex --output-format pdf references.tex;
-	pdflatex --output-format pdf references.tex
-
-	pdflatex --output-format pdf cover_letter.tex;
-	pdflatex --output-format pdf cover_letter.tex
-
+	$(foreach \
+		file, $(FILES), \
+		pdflatex --output-dir build/pdf --output-format pdf source/$(file).tex \
+	;)
+	cp build/pdf/cv.pdf ../afrendeiro.github.io/
+	cp publications.csv ../afrendeiro.github.io/
 	make clean
 
 clean:
-	-rm cv.aux cv.out cv.log cv.tex
-	-rm resume.aux resume.out resume.log
-	-rm resume.aux resume.out resume_long.log
-	-rm lop.aux lop.out lop.log lop.tex
-	-rm pub_highlight.aux pub_highlight.out pub_highlight.log
-	-rm references.aux references.out references.log
-	-rm cover_letter.aux cover_letter.out cover_letter.log
+	-rm build/pdf/*.aux;
+	-rm build/pdf/*.log;
+	-rm build/pdf/*.out
 
 all: requirements pdf
 

@@ -2,16 +2,19 @@
 
 import sys
 from datetime import datetime
+from pathlib import Path
 
 import pandas as pd
 
 
 AUTHOR_NAME = "André F. Rendeiro"
-PUBS_CSV = "publications.csv"
 PUBS_TEX = {"_cv.tex": "cv.tex", "_lop.tex": "lop.tex"}
 INDENT = "        "
 PUB_FORMAT = """\\item {authors}. \\textbf{{{title}}}. {journal} ({year}).\n"""
 PUB_FORMAT += """{indent}\\href{{https://dx.doi.org/{doi}}}{{doi:{doi}}}"""
+PUBS_CSV = Path("publications.csv")
+INPUT_DIR = Path("source")
+OUTPUT_DIR = Path("source")
 DATE = datetime.now().isoformat().split("T")[0]
 
 
@@ -31,7 +34,7 @@ def main() -> int:
         preprint_list.append(p)
 
     for input_file, output_file in PUBS_TEX.items():
-        with open(input_file, "r") as handle:
+        with open(INPUT_DIR / input_file, "r") as handle:
             content = (
                 handle.read()
                 .replace("{{publications_go_here}}", ("\n\n" + INDENT).join(pub_list))
@@ -39,7 +42,7 @@ def main() -> int:
                 .replace("{{current_date}}", DATE)
             )
 
-        with open(output_file, "w") as handle:
+        with open(OUTPUT_DIR / output_file, "w") as handle:
             handle.write(content)
 
     return 0
