@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 
 import sys
+from datetime import datetime
 
 import pandas as pd
 
 
 AUTHOR_NAME = "André F. Rendeiro"
 PUBS_CSV = "publications.csv"
-PUBS_TEX_INPUT = "_cv.tex"
-PUBS_TEX_OUTPUT = "cv.tex"
+PUBS_TEX = {"_cv.tex": "cv.tex", "_lop.tex": "lop.tex"}
 INDENT = "        "
-PUB_FORMAT = """\\item {authors}. \\textbf{{{title}}}. {journal} ({year}).\n{indent}\\href{{https://dx.doi.org/{doi}}}{{doi:{doi}}}"""
+PUB_FORMAT = """\\item {authors}. \\textbf{{{title}}}. {journal} ({year}).\n"""
+PUB_FORMAT += """{indent}\\href{{https://dx.doi.org/{doi}}}{{doi:{doi}}}"""
+DATE = datetime.now().isoformat().split("T")[0]
 
 
 def main() -> int:
@@ -28,17 +30,17 @@ def main() -> int:
         p = p.replace(AUTHOR_NAME, f"\\underline{{{AUTHOR_NAME}}}")
         preprint_list.append(p)
 
-    with open(PUBS_TEX_INPUT, "r") as handle:
-        content = handle.read()
-        content = content.replace(
-            "{{publications_go_here}}", ("\n\n" + INDENT).join(pub_list)
-        )
-        content = content.replace(
-            "{{preprints_go_here}}", ("\n\n" + INDENT).join(preprint_list)
-        )
+    for input_file, output_file in PUBS_TEX.items():
+        with open(input_file, "r") as handle:
+            content = (
+                handle.read()
+                .replace("{{publications_go_here}}", ("\n\n" + INDENT).join(pub_list))
+                .replace("{{preprints_go_here}}", ("\n\n" + INDENT).join(preprint_list))
+                .replace("{{current_date}}", DATE)
+            )
 
-    with open(PUBS_TEX_OUTPUT, "w") as handle:
-        handle.write(content)
+        with open(output_file, "w") as handle:
+            handle.write(content)
 
     return 0
 

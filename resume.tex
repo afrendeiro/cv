@@ -1,0 +1,218 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% "ModernCV" CV and Cover Letter
+% LaTeX Template
+% Version 1.1 (9/12/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Xavier Danaux (xdanaux@gmail.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+% Important note:
+% This template requires the moderncv.cls and .sty files to be in the same
+% directory as this .tex file. These files provide the resume style and themes
+% used for structuring the document.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%   PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt,a4paper,roman]{moderncv} % Font sizes: 10, 11, or 12; paper sizes: a4paper, letterpaper, a5paper, legalpaper, executivepaper or landscape; font families: sans or roman
+
+
+\moderncvstyle{classic} % CV theme - options include: 'casual' (default), 'classic', 'oldstyle' and 'banking'
+\moderncvcolor{black} % CV color - options include: 'blue' (default), 'orange', 'green', 'red', 'purple', 'grey' and 'black'
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage[scale=0.90]{geometry} % Control document margins
+\setlength{\hintscolumnwidth}{3cm} % Change the width of the dates column
+%\setlength{\makecvtitlenamewidth}{10cm} % For the 'classic' style, uncomment to adjust the width of the space allocated to your name
+
+%\usepackage[english]{babel}
+%\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{color}
+\usepackage[english]{babel}
+\usepackage{etaremune}  % for reverse enumeration
+\usepackage{enumitem} % for different style in itemize
+
+% footer page count
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\cfoot{\thepage\ of \pageref{LastPage}}
+
+%----------------------------------------------------------------------------------------
+%   NAME AND CONTACT INFORMATION SECTION
+%----------------------------------------------------------------------------------------
+
+\firstname{André} % Your first name
+\familyname{F. Rendeiro} % Your last name
+
+% All information in this block is optional, comment out any lines you don't need
+\title{Computational biologist}
+%\address{}
+%\mobile{}
+%\phone{}
+%\fax{}
+\email{andre.rendeiro@pm.me}
+\homepage{andre-rendeiro.com} % The first argument is the url for the clickable link, the second argument is the url displayed in the template - this allows special characters to be displayed such as the tilde in this example
+
+\social[orcid][orcid.org/0000-0001-9362-5373]{ORCID: 0000-0001-9362-5373}
+\social[github]{afrendeiro}
+\social[twitter]{afrendeiro}
+
+
+%\extrainfo{additional information}
+%\photo[70pt][0.4pt]{/home/afr/Pictures/me.png} % The first bracket is the picture height, the second is the thickness of the frame around the picture (0pt for no frame)
+%\quote{"A witty and playful quotation" - John Smith}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\makecvtitle % Print the CV title
+
+\vspace*{-\baselineskip}
+
+%----------------------------------------------------------------------------------------
+%   CURRENT POSITION
+%----------------------------------------------------------------------------------------
+
+\section{Current position}
+    \cventry{03/2020 - present}
+    {Postdoctoral Associate in Computational Biomedicine}{Institute of Computational Biomedicine, Englander Institute for Precision Medicine, Weill Cornell Medicine}{USA}
+    {}{Supervisor: Olivier Elemento}
+
+%----------------------------------------------------------------------------------------
+%   EDUCATION SECTION
+%----------------------------------------------------------------------------------------
+
+\section{Education}
+    \cventry{09/2014 - 01/2020}
+        {PhD}{Medical University of Vienna}{Austria}{}{Supervisor: Christoph Bock, CeMM Research Centre for Molecular Medicine}
+    \cventry{09/2012 - 06/2014}
+        {'Mestrado' (MSc) in Molecular and Cell Biology}{University of Aveiro}{Portugal}{}{}
+    \cventry{09/2008 - 07/2012}
+        {'Licenciatura' (BSc) in Biology}{University of Aveiro}{Portugal}{}{}
+
+%----------------------------------------------------------------------------------------
+%   PUBLICATIONS SECTION
+%----------------------------------------------------------------------------------------
+
+\section{Publication summary}
+    \qquad \qquad \qquad \qquad \ \ 24 publications, 8 first-author publications, 1 preprint, 1771 citations, h-index: 15
+
+%----------------------------------------------------------------------------------------
+%   AWARDS SECTION
+%----------------------------------------------------------------------------------------
+
+\section{Scholarships/Grants}
+    \cventry{10/2020 - present}
+        {Molecular and Translational Oncology Research}{Training Grant}{T32CA203702}{}{National Cancer Institute, USA}
+    \cventry{08/2013 - 06/2014}
+        {Erasmus studies mobility program scholarship}{}{}{}{European Commission}
+    \cventry{09/2011 - 06/2012}
+        {Erasmus intership mobility program scholarship}{}{}{}{European Commission}
+    \cventry{10/2009 - 06/2010}
+        {"Integration into Research" Grant}{}{}{}{Science and Technology Foundation, Portugal}
+
+%----------------------------------------------------------------------------------------
+%   SKILLS SECTION
+%----------------------------------------------------------------------------------------
+\section{Skills}
+    \cvitem{Data science}{
+        Development of data processing pipelines;
+        Data-driven analysis and visualisation;\newline
+        Machine learning;
+        Application of Bayesian methods with probabilistic programming}
+    \cvitem{Applications}{
+        Analysis of:
+        image data (brightfield, IHC, IF, IMC);
+        single cell *-seq;
+        bulk ATAC-/ChIP-/RNA-seq;
+        CyTOF and flow cytometry;
+        CRISPR screens}
+    % \cvitem{Programming}{
+    %     Experienced in \textit{Python} and \textit{R} programming;
+    %     Knowledge of \textit{Rust} programming
+    %     \newline
+    %     Competence in software development: version control, testing, continuous integration.}
+    \cvitem{Programming}{
+        Experienced in \textit{Python} and \textit{R} programming;
+        Competence in software development.}
+
+    \cvitem{Molecular Biology}{
+        Chromatin IP, ChIP-seq, NGS libraries, Western blotting, PCR, Cloning
+    % \newline
+    %     Additional experience in:
+    %     Chemical screening,
+    %     Zebrafish and \textit{Nematostella} handling and microinjection,
+    %     basic experience in immunohistochemistry,
+    %     fluorescence and confocal microscopy}
+    \newline
+        Additional experience in:
+        Chemical screening;
+        fluorescence and confocal microscopy}
+
+%----------------------------------------------------------------------------------------
+%   LICENSES & CERTIFICATIONS
+%----------------------------------------------------------------------------------------
+
+\section{Licenses and certifications}
+
+    \cventry{04/2021 - 04/2025}
+        {Biomedical Research Investigators and Key Personel}{\href{https://www.citiprogram.org/verify/?w9102e99f-9a51-41fc-993b-e50ba7dafc36-41194853}{Credential ID: 41194853}}{}{}{}
+
+    \cventry{04/2021 - 04/2025}
+        {Good Clinical Practice}{\href{https://www.citiprogram.org/verify/?w50fab502-7953-4e4c-ac09-87d4aa204f2f-41194854}{Credential ID: 41194854}}{}{}{}
+
+    \cventry{12/2020 - 12/2025}
+        {Responsible Conduct of Research}{}{}{}{Tri-Institutional program: MSK Cancer Center, Weill Cornell Medical College, Rockefeller University}
+
+    \cventry{06/2020 - 01/2026}
+        {Responsible Conduct of Research for Faculty}{}{}{}{Weill Cornell Medical College}
+
+
+%----------------------------------------------------------------------------------------
+%   TIMESTAMP
+%----------------------------------------------------------------------------------------
+\bigskip
+\textit{Full Curriculum vitae available at: \href{https://andre-rendeiro.com/cv.pdf}{https://andre-rendeiro.com/cv.pdf}}
+\newline
+\textit{Updated on 2021/07/16}
+
+
+
+%----------------------------------------------------------------------------------------
+%   COVER LETTER
+%----------------------------------------------------------------------------------------
+
+% To remove the cover letter, comment out this entire block
+
+% \clearpage
+
+% \recipient{HR Departmnet}{Corporation\\123 Pleasant Lane\\12345 City, State} % Letter recipient
+% \date{\today} % Letter date
+% \opening{Dear Sir or Madam,} % Opening greeting
+% \closing{Sincerely yours,} % Closing phrase
+% \enclosure[Attached]{curriculum vit\ae{}} % List of enclosed documents
+
+% \makelettertitle % Print letter title
+
+% \lipsum[1-3] % Dummy text
+
+% \makeletterclosing % Print letter signature
+
+%----------------------------------------------------------------------------------------
+
+\end{document}

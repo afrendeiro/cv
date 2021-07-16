@@ -1,0 +1,113 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% "ModernCV" CV and Cover Letter
+% LaTeX Template
+% Version 1.1 (9/12/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Xavier Danaux (xdanaux@gmail.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+% Important note:
+% This template requires the moderncv.cls and .sty files to be in the same
+% directory as this .tex file. These files provide the resume style and themes
+% used for structuring the document.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%   PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt,a4paper,roman]{moderncv} % Font sizes: 10, 11, or 12; paper sizes: a4paper, letterpaper, a5paper, legalpaper, executivepaper or landscape; font families: sans or roman
+
+
+\moderncvstyle{classic} % CV theme - options include: 'casual' (default), 'classic', 'oldstyle' and 'banking'
+\moderncvcolor{black} % CV color - options include: 'blue' (default), 'orange', 'green', 'red', 'purple', 'grey' and 'black'
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage[scale=0.90]{geometry} % Control document margins
+\setlength{\hintscolumnwidth}{3cm} % Change the width of the dates column
+%\setlength{\makecvtitlenamewidth}{10cm} % For the 'classic' style, uncomment to adjust the width of the space allocated to your name
+
+%\usepackage[english]{babel}
+%\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{color}
+\usepackage[english]{babel}
+\usepackage{etaremune}  % for reverse enumeration
+\usepackage{enumitem} % for different style in itemize
+
+% footer page count
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\cfoot{\thepage\ of \pageref{LastPage}}
+
+%----------------------------------------------------------------------------------------
+%   NAME AND CONTACT INFORMATION SECTION
+%----------------------------------------------------------------------------------------
+
+\firstname{André} % Your first name
+\familyname{F. Rendeiro} % Your last name
+
+% All information in this block is optional, comment out any lines you don't need
+\title{Computational biologist}
+%\address{}
+%\mobile{}
+%\phone{}
+%\fax{}
+\email{andre.rendeiro@pm.me}
+\homepage{andre-rendeiro.com} % The first argument is the url for the clickable link, the second argument is the url displayed in the template - this allows special characters to be displayed such as the tilde in this example
+
+\social[orcid][orcid.org/0000-0001-9362-5373]{ORCID: 0000-0001-9362-5373}
+\social[github]{afrendeiro}
+\social[twitter]{afrendeiro}
+
+
+%\extrainfo{additional information}
+%\photo[70pt][0.4pt]{/home/afr/Pictures/me.png} % The first bracket is the picture height, the second is the thickness of the frame around the picture (0pt for no frame)
+%\quote{"A witty and playful quotation" - John Smith}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\makecvtitle % Print the CV title
+
+\section{Highlighted publications}
+
+\begin{list}{--}{}
+    \item{}
+        {\underline{André F. Rendeiro}*, Hiranmayi Ravichandran*, Yaron Bram, Vasuretha Chandar, Junbum Kim, Cem Meydan, Jiwoon Park, Jonathan Foox, Tyler Hether, Sarah Warren, Youngmi Kim, Jason Reeves, Steven Salvatore, Christopher E. Mason, Eric C. Swanson, Alain C. Borczuk, Olivier Elemento, Robert E. Schwartz. \textit{The spatial landscape of lung pathology during COVID-19 progression}. \textbf{Nature} (2021) \href{https://dx.doi.org/10.1038/s41586-021-03475-6}{doi:10.1038/s41586-021-03475-6}}
+
+        In this study, I used highly-multiplexed imaging using mass cytometry to identify the key structural, cellular and immunological changes associated with the end-point of severe lung pathology due to SARS-CoV-2 infection and other lung pathologies. I leveraged computer vision algorithms, physical cellular intereactions, and single-cell phenotyping to understand host response to and tropism of SARS-CoV-2 in the native tissue at a spatial and single-cell resolution. Taking advantage of clinical covariates from patients that died at drasticaly different times regarding disease onset, I built a biologically-interpretable landscape of lung infection from the micro-anatomical to single-cell perspective. Understanding of the temporal progression of lung infection also benefits the understanding of lung pathology in general.
+
+        This study demonstrates my ability to work with methods capable of capturing spatially-resolved biology and importantly, their integration with clinical data.
+
+    \item{}{
+        Paul Datlinger*, \underline{André F. Rendeiro}*, Thorina Boenke, Thomas Krausgruber, Daniele Barreca, Christoph Bock. \textit{Ultra-high throughput single-cell RNA sequencing by combinatorial fluidic indexing}. \textbf{Nature Methods} (2021). \href{https://dx.doi.org/10.1101/2019.12.17.879304}{doi:10.1101/2019.12.17.879304}}
+
+        In this study, I jointly developed an assay for the profiling of transcriptome in single cells at ultra-large scale. This method combines the often orthogonal methods of combinatorial indexing of cells in wells with encapsulation in microfluidic droplets. Of note, this is done using a previously commercially available instrument of high popularity - 10X Chromium. A key to reverse engineer the device was the probabilistic modeling of its cell loading and collision rates. This unlocked the ability to 'overload' the droplet microfluidics with unprecedented rates by pre-barcoding the single-cells. We apply this method to samples of primary human immune cells, and in a 
+
+        This study demonstrates my ability to employ advanced analytical methods that fit datasets of unprecedented nature and scale which will be the basis of high-throughput biology in the near future.
+
+    \item{}
+        {\underline{André F. Rendeiro}*, Thomas Krausgruber*, Nikolaus Fortelny, Fangwen Zhao, Thomas Penz, Matthias Farlik, Linda C. Schuster, Amelie Nemc, Szabolcs Tasnády, Marienn Réti, Zoltán Mátrai, Donat Alpar, Csaba Bödör, Christian Schmidl, Christoph Bock. \textit{Chromatin mapping and single-cell immune profiling define the temporal dynamics of ibrutinib drug response in CLL}. \textbf{Nature Communications} (2020). \href{https://dx.doi.org/10.1038/s41467-019-14081-6}{doi:10.1038/s41467-019-14081-6}}
+
+        In this study, I use a combination of epigenome profiling, and single cell RNA sequencing of samples from chronic leukemia patients during a clinical trial to unravel the molecular mechanism of a drug in unprecedented detail. Patients were followed for 8 timepoints, and in each 6 cell types were sorted from blood. By using Gaussian Processes, I uncovered the epigenomic changes associated with treatment over time in a cell type specific manner. In addition, the single cell sequencing alllowed us to observe the clonal evolution of cells under treatment over time, and discover that non-malignant immune cells are also affected by the treatment. Finally, the molecular profiles of the patients was finally used to derive a signature predictive of response to treatment.
+
+        This study demonstrates by ability to integrate various types of data from the same patient (copy number variation of single cells, expression, and epigenome profiling) in otder to better understand disease and its treatment.
+
+\end{list}
+
+* \textit{equal contributions}
+
+\end{document}

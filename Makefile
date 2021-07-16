@@ -22,10 +22,34 @@ pdf: clean
 	pdflatex --output-format pdf cv.tex;
 	cp cv.pdf ../afrendeiro.github.io/
 
+	pdflatex --output-format pdf resume.tex;
+	pdflatex --output-format pdf resume.tex
+
+	pdflatex --output-format pdf resume_long.tex;
+	pdflatex --output-format pdf resume_long.tex
+
+	pdflatex --output-format pdf lop.tex;
+	pdflatex --output-format pdf lop.tex
+
+	pdflatex --output-format pdf pub_highlight.tex;
+	pdflatex --output-format pdf pub_highlight.tex
+
+	pdflatex --output-format pdf references.tex;
+	pdflatex --output-format pdf references.tex
+
+	pdflatex --output-format pdf cover_letter.tex;
+	pdflatex --output-format pdf cover_letter.tex
+
 	make clean
 
 clean:
-	-rm cv.aux cv.out cv.log;
+	-rm cv.aux cv.out cv.log cv.tex
+	-rm resume.aux resume.out resume.log
+	-rm resume.aux resume.out resume_long.log
+	-rm lop.aux lop.out lop.log lop.tex
+	-rm pub_highlight.aux pub_highlight.out pub_highlight.log
+	-rm references.aux references.out references.log
+	-rm cover_letter.aux cover_letter.out cover_letter.log
 
 all: requirements pdf
 

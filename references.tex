@@ -1,0 +1,143 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% "ModernCV" CV and Cover Letter
+% LaTeX Template
+% Version 1.1 (9/12/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Xavier Danaux (xdanaux@gmail.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+% Important note:
+% This template requires the moderncv.cls and .sty files to be in the same
+% directory as this .tex file. These files provide the resume style and themes
+% used for structuring the document.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%   PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt,a4paper,roman]{moderncv} % Font sizes: 10, 11, or 12; paper sizes: a4paper, letterpaper, a5paper, legalpaper, executivepaper or landscape; font families: sans or roman
+
+
+\moderncvstyle{classic} % CV theme - options include: 'casual' (default), 'classic', 'oldstyle' and 'banking'
+\moderncvcolor{black} % CV color - options include: 'blue' (default), 'orange', 'green', 'red', 'purple', 'grey' and 'black'
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage[scale=0.90]{geometry} % Control document margins
+\setlength{\hintscolumnwidth}{3cm} % Change the width of the dates column
+%\setlength{\makecvtitlenamewidth}{10cm} % For the 'classic' style, uncomment to adjust the width of the space allocated to your name
+
+%\usepackage[english]{babel}
+%\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{color}
+\usepackage[english]{babel}
+\usepackage{etaremune}  % for reverse enumeration
+\usepackage{enumitem} % for different style in itemize
+
+% footer page count
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\cfoot{\thepage\ of \pageref{LastPage}}
+
+%----------------------------------------------------------------------------------------
+%   NAME AND CONTACT INFORMATION SECTION
+%----------------------------------------------------------------------------------------
+
+\firstname{André} % Your first name
+\familyname{F. Rendeiro} % Your last name
+
+% All information in this block is optional, comment out any lines you don't need
+\title{Computational biologist}
+%\address{}
+%\mobile{}
+%\phone{}
+%\fax{}
+\email{andre.rendeiro@pm.me}
+\homepage{andre-rendeiro.com} % The first argument is the url for the clickable link, the second argument is the url displayed in the template - this allows special characters to be displayed such as the tilde in this example
+
+\social[orcid][orcid.org/0000-0001-9362-5373]{ORCID: 0000-0001-9362-5373}
+\social[github]{afrendeiro}
+\social[twitter]{afrendeiro}
+
+
+%\extrainfo{additional information}
+%\photo[70pt][0.4pt]{/home/afr/Pictures/me.png} % The first bracket is the picture height, the second is the thickness of the frame around the picture (0pt for no frame)
+%\quote{"A witty and playful quotation" - John Smith}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\makecvtitle % Print the CV title
+
+\section{List of references}
+
+\begin{list}{--}{}
+    \item{}
+        {\textbf{Olivier Elemento, PhD.}}\newline
+        Professor of Physiology and Biophysics, Weill Cornell Medical College\newline
+        Walter B. Wriston Research Scholar\newline
+        Professor of Computational Genomics in Computational Biomedicine\newline
+        Associate Director of the Institute for Computational Biomedicine\newline
+        Director of the Englander Institute for Precision Medicine\newline
+        Associate Director of the Institute for Computational Biomedicine
+
+        Contact information:\newline
+        \> ole2001@med.cornell.edu\newline
+        \> 1305 York Avenue, Room Y-13.13\newline
+        \> New York, NY 10021, USA
+
+        Dr. Elemento is my current advisor during my post-doctoral work.\newline
+
+    \item{}
+        {\textbf{Christoph Bock, PhD.}}\newline
+        Principal Investigator, CeMM Research Center for Molecular Medicine (ÖAW)\newline
+        Professor of Biomedical Informatics, Medical University of Vienna\newline
+        Head, Institute of Artificial Intelligence, CeMSIIS, Medical University of Vienna\newline
+        Scientific Coordinator, Biomedical Sequencing Facility, CeMM \& MedUni Vienna
+
+        Contact information:\newline
+        \> cbock@cemm.oeaw.ac.at\newline
+        \> Lazarettgasse 14, AKH BT 25.3\newline
+        \> 1090 Vienna, Austria
+
+        Dr. Bock was my advisor during my doctoral work.\newline
+
+    \item{}
+        {\textbf{Robert E. Schwartz, M.D. PhD.}}\newline
+        Assistant Professor of Medicine, Weill Cornell Medical College\newline
+        Walter B. Wriston Research Scholar
+
+        Contact information:\newline
+        \> res2025@med.cornell.edu\newline
+        \> 413 E 69th Street, Belfer Research Building, Floor 12, Room 1260\newline
+        \> New York, NY 10021, USA
+
+        Dr. Schwartz is a current scientific collaborator during my post-doctoral work.\newline
+
+    \item{}
+        {\textbf{Christian Schmidl, PhD.}}\newline
+        Junior Research Group Leader, RCI Regensburg Center for Interventional Immunology
+
+        Contact information:\newline
+        \> christian.schmidl@ukr.de\newline
+        \> RCI Regensburg Center for Interventional Immunology c/o University Hospital Regensburg\newline
+        \> F.-J.-Strauss Allee 11 | D-93053 Regensburg, Germany
+
+        Dr. Schmidl was a scientific collaborator during my doctoral work.\newline
+
+\end{list}
+
+\end{document}
