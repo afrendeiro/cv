@@ -33,8 +33,8 @@ pdf: clean
 	make clean
 
 clean:
-	-rm source/cv*.tex
-	-rm source/lop*.tex
+	-rm source/cv*.tex;
+	-rm source/lop*.tex;
 	-rm build/pdf/*.aux;
 	-rm build/pdf/*.log;
 	-rm build/pdf/*.out
