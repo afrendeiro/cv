@@ -30,6 +30,7 @@ pdf: clean
 		file, $(FILES), \
 		pdflatex --output-dir build/pdf --output-format pdf source/$(file).tex \
 	;)
+	cp build/pdf/cv.pdf ./
 	make clean
 
 clean:
@@ -41,7 +42,10 @@ clean:
 
 web: pdf
 	cp build/pdf/cv.pdf ../afrendeiro.github.io/
+	cp publications.csv ../afrendeiro.github.io/
+	cp publication_resources.csv ../afrendeiro.github.io/
 	cd ../afrendeiro.github.io/; \
+	python update_publications_resources.py; \
 	git add cv.pdf; \
 	git commit -m 'update publications'; \
 	git push origin gh-pages
