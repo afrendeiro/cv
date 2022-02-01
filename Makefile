@@ -46,7 +46,11 @@ web: pdf
 	cp publication_resources.csv ../afrendeiro.github.io/
 	cd ../afrendeiro.github.io/; \
 	python update_publications_resources.py; \
-	git add cv.pdf; \
+	git add \
+		publications.csv \
+		publication_resources.csv \
+		cv.pdf \
+		index.md; \
 	git commit -m 'update publications'; \
 	git push origin gh-pages
 
