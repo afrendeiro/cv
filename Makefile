@@ -50,6 +50,15 @@ web: pdf
 	git commit -m 'update publications'; \
 	git push origin gh-pages
 
+up: web
+	git add \
+		publications.csv \
+		publication_resources.csv \
+		source/_cv.tex \
+		cv.pdf
+	git commit -m 'update publications'
+	git push origin main
+
 all: requirements pdf
 
 .PHONY: requirements pdf clean web
