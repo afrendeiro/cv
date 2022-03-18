@@ -40,10 +40,14 @@ clean:
 	-rm build/pdf/*.log;
 	-rm build/pdf/*.out
 
-web: pdf
+copy:
 	cp build/pdf/cv.pdf ../afrendeiro.github.io/
 	cp publications.csv ../afrendeiro.github.io/
 	cp publication_resources.csv ../afrendeiro.github.io/
+	cd ../afrendeiro.github.io/; \
+	python update_publications_resources.py
+
+web: pdf copy
 	cd ../afrendeiro.github.io/; \
 	python update_publications_resources.py; \
 	git add \
