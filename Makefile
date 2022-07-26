@@ -14,7 +14,11 @@
 requirements:
 	sudo apt install texlive; \
 	sudo apt install texlive-latex-extra; \
-	tlmgr install etaremune
+	tlmgr init-usertree; \
+	tlmgr install \
+		etaremune \
+		fontawesome5; \
+	wget -O source/fontawesome5.sty https://raw.githubusercontent.com/JanHendrikDolling/latex-fontawesome5/master/fontawesome5.sty
 
 FILES = cv resume lop pub_highlight references # cover_letter resume_long teaching_strategy
 
