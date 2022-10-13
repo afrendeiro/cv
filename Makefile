@@ -22,9 +22,11 @@ requirements:
 
 FILES = cv resume lop pub_highlight references # cover_letter resume_long teaching_strategy
 
-pdf: clean
+update:
+	python update_pubs.py
+
+pdf: clean update
 	mkdir -p build/pdf
-	python -u update_pubs.py
 	$(foreach \
 		file, $(FILES), \
 		pdflatex --output-dir build/pdf --output-format pdf source/$(file).tex \
@@ -37,21 +39,25 @@ pdf: clean
 	cp build/pdf/cv.pdf ./
 	make clean
 
-clean:
-	-rm source/cv*.tex;
-	-rm source/lop*.tex;
-	-rm build/pdf/*.aux;
-	-rm build/pdf/*.log;
-	-rm build/pdf/*.out
-
 copy:
+	cp build/pdf/cv.pdf ./
 	cp build/pdf/cv.pdf ../afrendeiro.github.io/
 	cp publications.csv ../afrendeiro.github.io/
 	cp publication_resources.csv ../afrendeiro.github.io/
 	cd ../afrendeiro.github.io/; \
-	python update_publications_resources.py
 
-web: pdf copy
+up:
+	# Upload changes
+	git add \
+		publications.csv \
+		publication_resources.csv \
+		source/_cv.tex \
+		cv.pdf
+	git commit -m 'update publications'
+	git push origin main
+
+web: copy
+	# Update website: "afrendeiro.github.io"
 	cd ../afrendeiro.github.io/; \
 	python update_publications_resources.py; \
 	git add \
@@ -62,14 +68,12 @@ web: pdf copy
 	git commit -m 'update publications'; \
 	git push origin gh-pages
 
-up: web
-	git add \
-		publications.csv \
-		publication_resources.csv \
-		source/_cv.tex \
-		cv.pdf
-	git commit -m 'update publications'
-	git push origin main
+clean:
+	-rm source/cv*.tex
+	-rm source/lop*.tex
+	-rm build/pdf/*.aux
+	-rm build/pdf/*.log
+	-rm build/pdf/*.out
 
 all: requirements pdf
 
