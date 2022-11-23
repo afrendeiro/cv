@@ -39,13 +39,6 @@ pdf: clean update
 	cp build/pdf/cv.pdf ./
 	make clean
 
-copy:
-	cp build/pdf/cv.pdf ./
-	cp build/pdf/cv.pdf ../afrendeiro.github.io/
-	cp publications.csv ../afrendeiro.github.io/
-	cp publication_resources.csv ../afrendeiro.github.io/
-	cd ../afrendeiro.github.io/; \
-
 up:
 	# Upload changes
 	git add \
@@ -55,6 +48,14 @@ up:
 		cv.pdf
 	git commit -m 'update publications'
 	git push origin main
+
+copy:
+	# Copy changes to website
+	cp build/pdf/cv.pdf ./
+	cp build/pdf/cv.pdf ../afrendeiro.github.io/
+	cp publications.csv ../afrendeiro.github.io/
+	cp publication_resources.csv ../afrendeiro.github.io/
+	cd ../afrendeiro.github.io/; \
 
 web: copy
 	# Update website: "afrendeiro.github.io"
