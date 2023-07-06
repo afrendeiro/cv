@@ -7,9 +7,9 @@
 # # The year version of the texlive installation must match the package year version.
 # # So if textlive installation is from a different year than the current, change the
 # # source of the packages to be get:
-# # $ tlmgr repository add ftp://tug.org/historic/systems/texlive/2020/tlnet-final
+# # $ tlmgr repository add ftp://tug.org/historic/systems/texlive/2021/tlnet-final
 # # $ tlmgr repository remove http://mirror.ctan.org/systems/texlive/tlne
-# # $ tlmgr option repository ftp://tug.org/historic/systems/texlive/2020/tlnet-final
+# # $ tlmgr option repository ftp://tug.org/historic/systems/texlive/2021/tlnet-final
 
 requirements:
 	sudo apt install texlive; \
@@ -17,24 +17,25 @@ requirements:
 	tlmgr init-usertree; \
 	tlmgr install \
 		etaremune \
-		fontawesome5; \
-	wget -O source/fontawesome5.sty https://raw.githubusercontent.com/JanHendrikDolling/latex-fontawesome5/master/fontawesome5.sty
+		fontawesome5
 
 FILES = cv resume lop pub_highlight references # cover_letter resume_long teaching_strategy
 
 update:
-	python update_pubs.py
+	python update.py
 
 pdf: clean update
 	mkdir -p build/pdf
 	$(foreach \
 		file, $(FILES), \
-		pdflatex --output-dir build/pdf --output-format pdf source/$(file).tex \
+		lualatex --output-dir build/pdf source/$(file).tex \
 	;)
+	# -interaction nonstopmode to run through errors
+
 	# # Run twice to fix list ordering with etanumer :/
 	$(foreach \
 		file, $(FILES), \
-		pdflatex --output-dir build/pdf --output-format pdf source/$(file).tex \
+		lualatex --output-dir build/pdf source/$(file).tex \
 	;)
 	cp build/pdf/cv.pdf ./
 	make clean

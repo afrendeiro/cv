@@ -10,7 +10,7 @@ import pandas as pd
 AUTHOR_NAME = "André F. Rendeiro"
 PUBS_TEX = {"_cv.tex": "cv.tex", "_lop.tex": "lop.tex"}
 INDENT = "        "
-AWARDS_FORMAT = """\cventry{{{year_applied}, {outcome}}}{{{description}}},{{{funding_body}}}{{{role}}}{{{ammount}}}{{}}{{{comment}}}"""
+AWARDS_FORMAT = """\cventry{{{year_applied}, {outcome}}}{{{description}}},{{{funding_body}}}{{{role}}}{{{ammount}}}{{}}"""
 grant_fields = [
     "year_applied",
     "outcome",
@@ -27,6 +27,8 @@ GRANTS_CSV = Path("grants.csv")
 INPUT_DIR = Path("source")
 OUTPUT_DIR = Path("source")
 DATE = datetime.now().isoformat().split("T")[0]
+GOOGLE_SCHOLAR_ID = "lj17pqEAAAAJ"
+LAST_AUTHOR_SIGN = r"$^\\Omega$"
 main_pub_types = ["journal", "review"]
 preprint_types = ["preprint"]
 alt_pub_types = ["opinion"]
@@ -34,6 +36,11 @@ alt_pub_types = ["opinion"]
 
 def main() -> int:
     pubs = pd.read_csv(PUBS_CSV).query("publication_type != 'unpublished'")
+    missing = pubs.loc[~pubs["authors"].str.contains(AUTHOR_NAME)]
+    join = "    - ".join(missing["title"])
+    reason = f"Some publications authors field missing including '{AUTHOR_NAME}': \n    - {join}"
+    assert missing.empty, reason
+
     grants = (
         pd.read_csv(GRANTS_CSV).query("applicant == @AUTHOR_NAME").replace(pd.NA, "")
     ).sort_values("year_applied", ascending=False)
@@ -61,6 +68,27 @@ def main() -> int:
         p = p.replace(AUTHOR_NAME, f"\\underline{{{AUTHOR_NAME}}}")
         alt_list.append(p)
 
+    # Publication metrics
+    metrics = get_google_scholar_metrics()
+    n_preprints = pubs.query("publication_type.isin(@preprint_types)").shape[0]
+    n_peer_reviewed = pubs.query("publication_type.isin(@main_pub_types)").shape[0]
+    ff = AUTHOR_NAME + r"\*"
+    n_first_author = pubs.query(
+        f"authors.str.startswith(@AUTHOR_NAME) | authors.str.contains('{ff}')"
+    ).shape[0]
+    ll = AUTHOR_NAME + LAST_AUTHOR_SIGN
+    n_last_author = pubs.query(
+        f"authors.str.endswith(@AUTHOR_NAME) | authors.str.contains('{ll}', regex=False)"
+    ).shape[0]
+
+    phrases = [
+        f"Publications: {pubs.shape[0]} ({n_peer_reviewed} peer reviewed, {n_preprints} preprints, {n_first_author} first-author, {n_last_author} last-author)",
+        f"Citations: {metrics['citations']} ({metrics['citations_5_years']} last 5 years)",
+        f"h-index: {metrics['h_index']} ({metrics['h_index_5_years']} last 5 years)",
+        f"Google Scholar Profile: \\href{{https://scholar.google.com/citations?user={GOOGLE_SCHOLAR_ID}}}{{https://scholar.google.com/citations?user={GOOGLE_SCHOLAR_ID}}}",
+    ]
+    metrics_text = "    ".join([f"\\cvitem{{}}{{\n{INDENT}{ph}}}\n" for ph in phrases])
+
     for input_file, output_file in PUBS_TEX.items():
         with open(INPUT_DIR / input_file, "r") as handle:
             content = (
@@ -69,6 +97,7 @@ def main() -> int:
                 .replace("{{publications_go_here}}", ("\n\n" + INDENT).join(pub_list))
                 .replace("{{preprints_go_here}}", ("\n\n" + INDENT).join(preprint_list))
                 .replace("{{alt_pubs_go_here}}", ("\n\n" + INDENT).join(alt_list))
+                .replace("{{metrics_go_here}}", metrics_text)
                 .replace("{{current_date}}", DATE)
             )
 
@@ -76,6 +105,33 @@ def main() -> int:
             handle.write(content)
 
     return 0
+
+
+def get_google_scholar_metrics():
+    # import requests
+    from selenium import webdriver
+    from bs4 import BeautifulSoup
+
+    url = f"https://scholar.google.at/citations?user={GOOGLE_SCHOLAR_ID}&hl=en"
+    # req = requests.get(url)
+    # req.raise_for_status()
+    # soup = BeautifulSoup(req.content, "html.parser")
+    ops = webdriver.FirefoxOptions()
+    ops.add_argument("--headless")
+    with webdriver.Firefox(options=ops) as driver:
+        driver.get(url)
+        html = driver.page_source
+    soup = BeautifulSoup(html, "html.parser")
+
+    metrics = soup.find_all("td", class_="gsc_rsb_std")
+    citations = metrics[0].text
+    citations_5_years = metrics[1].text
+    h_index = metrics[2].text
+    h_index_5_years = metrics[3].text
+    return pd.Series(
+        [citations, citations_5_years, h_index, h_index_5_years],
+        ["citations", "citations_5_years", "h_index", "h_index_5_years"],
+    )
 
 
 if __name__ == "__main__":
