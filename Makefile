@@ -58,10 +58,9 @@ up: copy
 	git commit -m 'update publications'
 	git push origin main
 
-web: copy
+web: pdf copy
 	# Update website: "afrendeiro.github.io"
 	cd ../afrendeiro.github.io/; \
-	python update_publications_resources.py; \
 	git add \
 		publications.csv \
 		publication_resources.csv \

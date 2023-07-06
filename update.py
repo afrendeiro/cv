@@ -47,7 +47,11 @@ def main() -> int:
 
     awards_list = list()
     for _, g in grants.iterrows():
-        p = AWARDS_FORMAT.format(**g[grant_fields].to_dict(), indent=INDENT)
+        p = (
+            AWARDS_FORMAT.format(**g[grant_fields].to_dict(), indent=INDENT)
+            .replace("nan", "")
+            .replace("},{", "}{")
+        )
         awards_list.append(p)
 
     pub_list = list()
