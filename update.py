@@ -10,9 +10,9 @@ import pandas as pd
 AUTHOR_NAME = "André F. Rendeiro"
 PUBS_TEX = {"_cv.tex": "cv.tex", "_lop.tex": "lop.tex"}
 INDENT = "        "
-AWARDS_FORMAT = """\cventry{{{year_applied}, {outcome}}}{{{description}}},{{{funding_body}}}{{{role}}}{{{ammount}}}{{}}"""
+GRANTS_AWARDS_FORMAT = """\cventry{{{time}}}{{{description}}},{{{funding_body}}}{{{role}}}{{{ammount}}}{{}}"""
 grant_fields = [
-    "year_applied",
+    "time",
     "outcome",
     "description",
     "funding_body",
@@ -41,18 +41,26 @@ def main() -> int:
     reason = f"Some publications authors field missing including '{AUTHOR_NAME}': \n    - {join}"
     assert missing.empty, reason
 
-    grants = (
+    #
+    grants_awards = (
         pd.read_csv(GRANTS_CSV).query("applicant == @AUTHOR_NAME").replace(pd.NA, "")
     ).sort_values("year_applied", ascending=False)
+    grants_awards["time"] = (
+        grants_awards["award_start"].astype(pd.Int64Dtype()).astype(str)
+        + " - "
+        + grants_awards["award_end"].astype(pd.Int64Dtype()).astype(str)
+    )
+    s = grants_awards["award_start"].isnull()
+    grants_awards.loc[s, "time"] = grants_awards.loc[s, "year_applied"]
 
-    awards_list = list()
-    for _, g in grants.iterrows():
+    grants_awards_list = list()
+    for _, g in grants_awards.iterrows():
         p = (
-            AWARDS_FORMAT.format(**g[grant_fields].to_dict(), indent=INDENT)
-            .replace("nan", "")
+            GRANTS_AWARDS_FORMAT.format(**g[grant_fields].to_dict(), indent=INDENT)
+            # .replace("nan", "")
             .replace("},{", "}{")
         )
-        awards_list.append(p)
+        grants_awards_list.append(p)
 
     pub_list = list()
     for _, pub in pubs.query("publication_type.isin(@main_pub_types)").iterrows():
@@ -97,7 +105,10 @@ def main() -> int:
         with open(INPUT_DIR / input_file, "r") as handle:
             content = (
                 handle.read()
-                .replace("{{awards_go_here}}", ("\n" + INDENT).join(awards_list))
+                .replace(
+                    "{{grants_awards_go_here}}",
+                    ("\n" + INDENT).join(grants_awards_list),
+                )
                 .replace("{{publications_go_here}}", ("\n\n" + INDENT).join(pub_list))
                 .replace("{{preprints_go_here}}", ("\n\n" + INDENT).join(preprint_list))
                 .replace("{{alt_pubs_go_here}}", ("\n\n" + INDENT).join(alt_list))
@@ -112,6 +123,9 @@ def main() -> int:
 
 
 def get_google_scholar_metrics():
+    """
+    Get metrics from Google Scholar profile
+    """
     # import requests
     from selenium import webdriver
     from bs4 import BeautifulSoup
