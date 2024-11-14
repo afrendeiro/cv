@@ -10,7 +10,9 @@ import pandas as pd
 AUTHOR_NAME = "André F. Rendeiro"
 PUBS_TEX = {"_cv.tex": "cv.tex", "_lop.tex": "lop.tex"}
 INDENT = "        "
-GRANTS_AWARDS_FORMAT = """\cventry{{{time}}}{{{description}}},{{{funding_body}}}{{{role}}}{{{ammount}}}{{}}"""
+GRANTS_AWARDS_FORMAT = (
+    """\cventry{{{time}}}{{{description}}},{{{funding_body}}}{{{role}}}{{}}{{}}"""
+)
 grant_fields = [
     "time",
     "outcome",
@@ -35,7 +37,7 @@ alt_pub_types = ["opinion"]
 
 
 def main() -> int:
-    pubs = pd.read_csv(PUBS_CSV).query("publication_type != 'unpublished'")
+    pubs = pd.read_csv(PUBS_CSV, comment="#").query("publication_type != 'unpublished'")
     missing = pubs.loc[~pubs["authors"].str.contains(AUTHOR_NAME)]
     join = "    - ".join(missing["title"])
     reason = f"Some publications authors field missing including '{AUTHOR_NAME}': \n    - {join}"
@@ -43,7 +45,9 @@ def main() -> int:
 
     #
     grants_awards = (
-        pd.read_csv(GRANTS_CSV).query("applicant == @AUTHOR_NAME").replace(pd.NA, "")
+        pd.read_csv(GRANTS_CSV, comment="#")
+        .query("applicant == @AUTHOR_NAME")
+        .replace(pd.NA, "")
     ).sort_values("year_applied", ascending=False)
     grants_awards["time"] = (
         grants_awards["award_start"].astype(pd.Int64Dtype()).astype(str)

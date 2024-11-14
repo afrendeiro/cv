@@ -22,7 +22,8 @@ requirements:
 FILES = cv resume lop pub_highlight references # cover_letter resume_long teaching_strategy
 
 update:
-	python update.py
+	@echo `python3 --version`
+	python3 update.py
 
 pdf: clean update
 	mkdir -p build/pdf
@@ -61,13 +62,10 @@ up: copy
 web: pdf copy
 	# Update website: "afrendeiro.github.io"
 	cd ../afrendeiro.github.io/; \
-	git add \
-		publications.csv \
-		publication_resources.csv \
-		cv.pdf \
-		index.md; \
-	git commit -m 'update publications'; \
-	git push origin gh-pages
+	$(MAKE) web
+
+viz:
+	python3 viz.py
 
 clean:
 	-rm source/cv*.tex
