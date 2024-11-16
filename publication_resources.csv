@@ -1,4 +1,7 @@
 doi,resource_type,resource_link
+10.1101/2024.11.14.618081,Code,https://github.com/rendeirolab/agingpath
+10.1101/2024.11.14.618081,Preprint,https://doi.org/10.1101/2024.11.14.618081
+10.1101/2024.11.14.618081,Data,https://zenodo.org/doi/10.5281/zenodo.13330658
 10.1038/s41556-024-01407-w,Code,https://github.com/reinisj/intron_tagging
 10.1038/s41467-024-46320-w,Data,https://zenodo.org/doi/10.5281/zenodo.5719187
 10.1038/s41467-024-46320-w,Code,https://github.com/ElementoLab/utuc-imc
