@@ -21,9 +21,12 @@ requirements:
 
 FILES = cv resume lop pub_highlight references # cover_letter resume_long teaching_strategy
 
-update:
-	@echo `python3 --version`
-	python3 update.py
+python-requirements:
+	uv pip install -r requirements.txt
+
+update: python-requirements
+	@echo `uv run python --version`
+	uv run python update.py
 
 pdf: clean update
 	mkdir -p build/pdf
@@ -64,10 +67,14 @@ web: pdf copy
 	cd ../afrendeiro.github.io/; \
 	$(MAKE) web
 
-viz:
-	python3 viz.py
+clean_viz:
+	-rm -r viz
+
+viz: clean_viz
+	uv run python viz.py
 
 clean:
+	-rm -r viz
 	-rm source/cv*.tex
 	-rm source/lop*.tex
 	-rm build/pdf/*.aux

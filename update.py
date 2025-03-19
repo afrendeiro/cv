@@ -6,6 +6,10 @@ from pathlib import Path
 
 import pandas as pd
 
+import selenium
+from selenium.webdriver import Firefox
+from bs4 import BeautifulSoup
+
 
 AUTHOR_NAME = "André F. Rendeiro"
 PUBS_TEX = {"_cv.tex": "cv.tex", "_lop.tex": "lop.tex"}
@@ -94,13 +98,13 @@ def main() -> int:
     ).shape[0]
     ll = AUTHOR_NAME + LAST_AUTHOR_SIGN
     n_last_author = pubs.query(
-        f"authors.str.endswith(@AUTHOR_NAME) | authors.str.contains('{ll}', regex=False)"
+        f"authors.str.contains('{ll}', regex=False)"  # | authors.str.endswith(@AUTHOR_NAME)
     ).shape[0]
 
     phrases = [
         f"Publications: {pubs.shape[0]} ({n_peer_reviewed} peer reviewed, {n_preprints} preprints, {n_first_author} first-author, {n_last_author} last-author)",
-        f"Citations: {metrics['citations']} ({metrics['citations_5_years']} last 5 years)",
-        f"h-index: {metrics['h_index']} ({metrics['h_index_5_years']} last 5 years)",
+        f"Citations: {metrics['citations']} (last 5 years: {metrics['citations_5_years']})",
+        f"h-index: {metrics['h_index']} (last 5 years: {metrics['h_index_5_years']})",
         f"Google Scholar Profile: \\href{{https://scholar.google.com/citations?user={GOOGLE_SCHOLAR_ID}}}{{https://scholar.google.com/citations?user={GOOGLE_SCHOLAR_ID}}}",
     ]
     metrics_text = "    ".join([f"\\cvitem{{}}{{\n{INDENT}{ph}}}\n" for ph in phrases])
@@ -130,17 +134,20 @@ def get_google_scholar_metrics():
     """
     Get metrics from Google Scholar profile
     """
-    # import requests
-    from selenium import webdriver
-    from bs4 import BeautifulSoup
-
     url = f"https://scholar.google.at/citations?user={GOOGLE_SCHOLAR_ID}&hl=en"
     # req = requests.get(url)
     # req.raise_for_status()
     # soup = BeautifulSoup(req.content, "html.parser")
-    ops = webdriver.FirefoxOptions()
-    ops.add_argument("--headless")
-    with webdriver.Firefox(options=ops) as driver:
+
+    firefox_bin = "/snap/firefox/current/usr/lib/firefox/firefox"
+    firefoxdriver_bin = "/snap/firefox/current/usr/lib/firefox/geckodriver"
+    options = selenium.webdriver.firefox.options.Options()
+    options.add_argument("--headless")
+    options.binary_location = firefox_bin
+    service = selenium.webdriver.firefox.service.Service(
+        executable_path=firefoxdriver_bin
+    )
+    with Firefox(service=service, options=options) as driver:
         driver.get(url)
         html = driver.page_source
     soup = BeautifulSoup(html, "html.parser")
