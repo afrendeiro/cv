@@ -62,7 +62,7 @@ up: copy
 	git commit -m 'update publications'
 	git push origin main
 
-web: pdf copy
+web: copy
 	# Update website: "afrendeiro.github.io"
 	cd ../afrendeiro.github.io/; \
 	$(MAKE) web
