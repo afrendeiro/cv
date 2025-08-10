@@ -1,4 +1,6 @@
 doi,resource_type,resource_link
+10.1016/j.cels.2025.101346,Data,http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE263763
+10.1016/j.cels.2025.101346,Code,https://github.com/epigen/macrophage-regulation
 10.1101/2025.05.28.656548,Code,https://github.com/RendeiroLab/LazySlide
 10.1101/2025.05.28.656548,Notebook,https://lazyslide.readthedocs.io
 10.1101/2025.05.28.656548,Code,https://github.com/RendeiroLab/WSIData
