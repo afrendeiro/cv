@@ -20,10 +20,8 @@ install-tex-packages:
 # Build PDF from LaTeX
 pdf: install-tex-packages clean update
     mkdir -p build/pdf
-    pdflatex -interaction=nonstopmode -output-directory=build/pdf source/cv.tex
-    pdflatex -interaction=nonstopmode -output-directory=build/pdf source/cv.tex
-    # lualatex -interaction=nonstopmode -output-directory=build/pdf source/cv.tex
-    # lualatex -interaction=nonstopmode -output-directory=build/pdf source/cv.tex
+    lualatex -interaction=nonstopmode -output-directory=build/pdf source/cv.tex || true
+    lualatex -interaction=nonstopmode -output-directory=build/pdf source/cv.tex || true
     cp build/pdf/cv.pdf ./
 
 # Clean build artifacts

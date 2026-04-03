@@ -16,15 +16,15 @@ AUTHOR_NAME = "André F. Rendeiro"
 PUBS_TEX = {"_cv.tex": "cv.tex", "_lop.tex": "lop.tex"}
 INDENT = "        "
 GRANTS_AWARDS_FORMAT = (
-    """\cventry{{{time}}}{{{description}}},{{{funding_body}}}{{{role}}}{{}}{{}}"""
+    r"""\cventry{{{time}}}{{{title}}},{{{entity}}}{{{role}}}{{}}{{}}"""
 )
 grant_fields = [
     "time",
     "outcome",
-    "description",
-    "funding_body",
+    "title",
+    "entity",
     "role",
-    "ammount",
+    "amount",
     "comment",
 ]
 PUB_FORMAT = """\\item {authors}. \\textbf{{{title}}}. {journal} ({year}).\n"""
@@ -48,27 +48,28 @@ def main() -> int:
     reason = f"Some publications authors field missing including '{AUTHOR_NAME}': \n    - {join}"
     assert missing.empty, reason
 
-    #
     grants_awards = (
         pd.read_csv(GRANTS_CSV, comment="#")
         .query("applicant == @AUTHOR_NAME")
         .replace(pd.NA, "")
     ).sort_values("year_applied", ascending=False)
     grants_awards["time"] = (
-        grants_awards["award_start"].astype(pd.Int64Dtype()).astype(str)
-        + " - "
-        + grants_awards["award_end"].astype(pd.Int64Dtype()).astype(str)
+        grants_awards["year_start"].astype(pd.Int64Dtype()).astype(str)
     )
-    s = grants_awards["award_start"].isnull()
-    grants_awards.loc[s, "time"] = grants_awards.loc[s, "year_applied"]
+    s = grants_awards["year_end"].notna()
+    grants_awards.loc[s, "time"] = (
+        grants_awards.loc[s, "year_start"].astype(pd.Int64Dtype()).astype(str)
+        + " - "
+        + grants_awards.loc[s, "year_end"].astype(pd.Int64Dtype()).astype(str)
+    )
+    s = grants_awards["year_start"].isna()
+    grants_awards.loc[s, "time"] = grants_awards.loc[s, "year_applied"].astype(str)
 
     grants_awards_list = list()
     for _, g in grants_awards.iterrows():
-        p = (
-            GRANTS_AWARDS_FORMAT.format(**g[grant_fields].to_dict(), indent=INDENT)
-            # .replace("nan", "")
-            .replace("},{", "}{")
-        )
+        p = GRANTS_AWARDS_FORMAT.format(
+            **g[grant_fields].to_dict(), indent=INDENT
+        ).replace("},{", "}{")
         grants_awards_list.append(p)
 
     pub_list = list()
@@ -89,7 +90,6 @@ def main() -> int:
         p = p.replace(AUTHOR_NAME, f"\\underline{{{AUTHOR_NAME}}}")
         alt_list.append(p)
 
-    # Publication metrics
     metrics = get_google_scholar_metrics()
     n_preprints = pubs.query("publication_type.isin(@preprint_types)").shape[0]
     n_peer_reviewed = pubs.query("publication_type.isin(@main_pub_types)").shape[0]
@@ -98,9 +98,7 @@ def main() -> int:
         f"authors.str.startswith(@AUTHOR_NAME) | authors.str.contains('{ff}')"
     ).shape[0]
     ll = AUTHOR_NAME + LAST_AUTHOR_SIGN
-    n_last_author = pubs.query(
-        f"authors.str.contains('{ll}', regex=False)"  # | authors.str.endswith(@AUTHOR_NAME)
-    ).shape[0]
+    n_last_author = pubs.query(f"authors.str.contains('{ll}', regex=False)").shape[0]
 
     phrases = [
         f"Publications: {pubs.shape[0]} ({n_peer_reviewed} peer reviewed, {n_preprints} preprints, {n_first_author} first-author, {n_last_author} last-author)",

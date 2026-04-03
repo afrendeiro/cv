@@ -2,6 +2,10 @@
 
 Personal CV using LaTeX (ModernCV), with data sourced from CSV files.
 
+A Python script (`update.py`) reads CSV files and fills placeholders in TeX template files.
+
+Uses [just](https://just.systems/) as the build system.
+
 ## Quick Start
 
 ```bash
@@ -30,3 +34,11 @@ CSV files in `data/`:
 - `experience.csv`, `skills.csv`, `software.csv`, `talks.csv`, `posters.csv`, `patents.csv`
 
 Edit CSV files and run `just update` to regenerate the TeX files.
+
+## Requirements
+
+- [just](https://just.systems/) - Build tool
+- Python 3.12+ with uv - For running update.py
+- TeX Live (lualatex) - For PDF generation
+- Chrome/Chromium + chromedriver - For scraping Google Scholar metrics
+- LaTeX packages: moderncv, fontawesome5, etaremune, academicons, lm-math
