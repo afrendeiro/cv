@@ -5,6 +5,7 @@ from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
+import yaml
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -12,7 +13,21 @@ from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
 
 
-AUTHOR_NAME = "André F. Rendeiro"
+CONFIG_PATH = Path("data/config.yaml")
+with open(CONFIG_PATH) as f:
+    CONFIG = yaml.safe_load(f)
+
+AUTHOR_NAME = CONFIG["author"]["name"]
+FIRSTNAME = CONFIG["author"]["firstname"]
+FAMILYNAME = CONFIG["author"]["familyname"]
+TITLE = CONFIG["author"]["title"]
+SUBTITLE = CONFIG["author"]["subtitle"]
+EMAIL = CONFIG["author"]["email"]
+HOMEPAGE = CONFIG["author"]["homepage"]
+ORCID = CONFIG["author"]["orcid"]
+GITHUB = CONFIG["author"]["github"]
+TWITTER = CONFIG["author"]["twitter"]
+GOOGLE_SCHOLAR_ID = CONFIG["author"]["google_scholar"]
 PUBS_TEX = {"_cv.tex": "cv.tex", "_lop.tex": "lop.tex"}
 INDENT = "        "
 GRANTS_AWARDS_FORMAT = (
@@ -42,7 +57,6 @@ POSTERS_CSV = Path("data/posters.csv")
 INPUT_DIR = Path("source")
 OUTPUT_DIR = Path("source")
 DATE = datetime.now().isoformat().split("T")[0]
-GOOGLE_SCHOLAR_ID = "lj17pqEAAAAJ"
 LAST_AUTHOR_SIGN = r"$^\\Omega$"
 main_pub_types = ["journal", "review"]
 preprint_types = ["preprint"]
@@ -116,6 +130,9 @@ def main() -> int:
     patents_list = format_patents()
     talks_list = format_talks()
     posters_list = format_posters()
+    current_positions_list = format_current_positions()
+    past_positions_list = format_past_positions()
+    key_research_list = format_key_research()
 
     phrases = [
         f"Publications: {pubs.shape[0]} ({n_peer_reviewed} peer reviewed, {n_preprints} preprints, {n_first_author} first-author, {n_last_author} last-author)",
@@ -129,6 +146,15 @@ def main() -> int:
         with open(INPUT_DIR / input_file, "r") as handle:
             content = (
                 handle.read()
+                .replace("{{firstname}}", FIRSTNAME)
+                .replace("{{familyname}}", FAMILYNAME)
+                .replace("{{title}}", TITLE)
+                .replace("{{subtitle}}", SUBTITLE)
+                .replace("{{email}}", EMAIL)
+                .replace("{{homepage}}", HOMEPAGE)
+                .replace("{{orcid}}", ORCID)
+                .replace("{{github}}", GITHUB)
+                .replace("{{twitter}}", TWITTER)
                 .replace(
                     "{{grants_awards_go_here}}",
                     ("\n" + INDENT).join(grants_awards_list),
@@ -145,6 +171,9 @@ def main() -> int:
                 .replace("{{patents_go_here}}", patents_list)
                 .replace("{{talks_go_here}}", talks_list)
                 .replace("{{posters_go_here}}", posters_list)
+                .replace("{{current_positions_go_here}}", current_positions_list)
+                .replace("{{past_positions_go_here}}", past_positions_list)
+                .replace("{{key_research_go_here}}", key_research_list)
                 .replace("{{current_date}}", DATE)
             )
 
@@ -324,6 +353,73 @@ def format_posters():
         + "\n"
         + "    \\end{etaremune}"
     )
+
+
+def format_current_positions():
+    items = []
+    for pos in CONFIG.get("current_positions", []):
+        start = pos.get("start_date", "")[:7].replace("-", "/")
+        time_str = start + " - "
+        position = pos.get("position", "").replace("_", r"\_")
+        institution = pos.get("institution", "").replace("_", r"\_")
+        location = pos.get("location", "")
+        items.append(
+            "\\cventry{"
+            + time_str
+            + "}{"
+            + position
+            + "}{\\newline"
+            + institution
+            + "}{"
+            + location
+            + "}{}{}"
+        )
+    return INDENT + ("\n" + INDENT).join(items)
+
+
+def format_past_positions():
+    items = []
+    for pos in CONFIG.get("past_positions", []):
+        start = pos.get("start_date", "")[:7].replace("-", "/")
+        end = (
+            pos.get("end_date", "")[:7].replace("-", "/") if pos.get("end_date") else ""
+        )
+        time_str = f"{start} - {end}" if end else f"{start} - "
+        position = pos.get("position", "").replace("_", r"\_")
+        institution = pos.get("institution", "").replace("_", r"\_")
+        location = pos.get("location", "")
+        supervisor = pos.get("supervisor", "")
+        supervisor_str = f"Supervisor: {supervisor}" if supervisor else ""
+        items.append(
+            rf"\cventry{{{time_str}}}{{{position}}}{{{institution}}}{{{location}}}{{}}{{{supervisor_str}}}"
+        )
+    return INDENT + ("\n" + INDENT).join(items)
+
+
+def format_key_research():
+    items = []
+    for pub in sorted(
+        CONFIG.get("key_research", []), key=lambda x: x.get("order", 999)
+    ):
+        doi = pub.get("doi", "")
+        authors = pub.get("authors_short", "").replace("_", r"\_")
+        title = pub.get("title", "").replace("_", r"\_")
+        journal = pub.get("journal", "")
+        year = pub.get("year", "")
+        last_author = r" $\Omega$" if pub.get("last_author", False) else ""
+        doi_str = f" \\href{{https://doi.org/{doi}}}{{doi:{doi}}}" if doi else ""
+        order_num = pub.get("order", "")
+        items.append(
+            "\\cvitem{"
+            + f"{order_num}."
+            + "} {"
+            + f"{authors}{last_author} \\textbf{{{title}}}. {journal} ({year}).{doi_str}"
+            + "}"
+        )
+    items.append(
+        r"\cvitem{}{$\Omega$ \textit{corresponding author}; * \textit{first-author}}"
+    )
+    return ("\n" + INDENT).join(items)
 
 
 if __name__ == "__main__":
