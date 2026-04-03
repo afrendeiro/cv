@@ -8,7 +8,7 @@ default: pdf
 
 # Generate CV from CSVs and config.yaml
 update:
-    uv run --with pyyaml --with requests --with beautifulsoup4 python build.py
+    uv run --with pyyaml --with requests --with beautifulsoup4 --with joblib python build.py
 
 
 # Install required LaTeX packages (user-tree mode)

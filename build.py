@@ -6,188 +6,166 @@ from pathlib import Path
 
 import pandas as pd
 import yaml
-
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from bs4 import BeautifulSoup
+from joblib import Memory
 
 
-CONFIG_PATH = Path("data/config.yaml")
-with open(CONFIG_PATH) as f:
-    CONFIG = yaml.safe_load(f)
-
-AUTHOR_NAME = CONFIG["author"]["name"]
-FIRSTNAME = CONFIG["author"]["firstname"]
-FAMILYNAME = CONFIG["author"]["familyname"]
-TITLE = CONFIG["author"]["title"]
-SUBTITLE = CONFIG["author"]["subtitle"]
-EMAIL = CONFIG["author"]["email"]
-HOMEPAGE = CONFIG["author"]["homepage"]
-ORCID = CONFIG["author"]["orcid"]
-GITHUB = CONFIG["author"]["github"]
-TWITTER = CONFIG["author"]["twitter"]
-GOOGLE_SCHOLAR_ID = CONFIG["author"]["google_scholar"]
-PUBS_TEX = {"_cv.tex": "cv.tex", "_lop.tex": "lop.tex"}
-INDENT = "        "
-GRANTS_AWARDS_FORMAT = (
-    r"""\cventry{{{time}}}{{{title}}},{{{entity}}}{{{role}}}{{}}{{}}"""
-)
-grant_fields = [
-    "time",
-    "outcome",
-    "title",
-    "entity",
-    "role",
-    "amount",
-    "comment",
-]
-PUB_FORMAT = """\\item {authors}. \\textbf{{{title}}}. {journal} ({year}).\n"""
-PUB_FORMAT += """{indent}\\href{{https://dx.doi.org/{doi}}}{{doi:{doi}}}"""
-PUBS_CSV = Path("data/publications.csv")
-GRANTS_CSV = Path("data/grants.csv")
-TEACHING_CSV = Path("data/teaching.csv")
-SUPERVISION_CSV = Path("data/supervision.csv")
-COURSES_CSV = Path("data/courses_attended.csv")
-ADMIN_CSV = Path("data/administrative.csv")
-SOFTWARE_CSV = Path("data/software.csv")
-PATENTS_CSV = Path("data/patents.csv")
-TALKS_CSV = Path("data/talks.csv")
-POSTERS_CSV = Path("data/posters.csv")
-INPUT_DIR = Path("source")
-OUTPUT_DIR = Path("source")
-DATE = datetime.now().isoformat().split("T")[0]
-LAST_AUTHOR_SIGN = r"$^\\Omega$"
-main_pub_types = ["journal", "review"]
-preprint_types = ["preprint"]
-alt_pub_types = ["opinion"]
+CACHE_DIR = Path("build/.cache")
+CACHE_TTL_DAYS = 30
+memory = Memory(CACHE_DIR, verbose=0)
 
 
 def main() -> int:
-    pubs = pd.read_csv(PUBS_CSV, comment="#").query("publication_type != 'unpublished'")
-    missing = pubs.loc[~pubs["authors"].str.contains(AUTHOR_NAME)]
-    join = "    - ".join(missing["title"])
-    reason = f"Some publications authors field missing including '{AUTHOR_NAME}': \n    - {join}"
-    assert missing.empty, reason
+    config = load_config()
+    author = config["author"]
+    data_paths = config["data_paths"]
+    indent = "        "
 
-    grants_awards = (
-        pd.read_csv(GRANTS_CSV, comment="#")
-        .query("applicant == @AUTHOR_NAME")
+    pubs = pd.read_csv(Path(data_paths["publications"]), comment="#").query(
+        "publication_type != 'unpublished'"
+    )
+    missing = pubs.loc[~pubs["authors"].str.contains(author["name"])]
+    assert missing.empty, (
+        f"Some publications authors field missing including '{author['name']}':\n    - "
+        + "\n    - ".join(missing["title"])
+    )
+
+    grants_df = (
+        pd.read_csv(Path(data_paths["grants"]), comment="#")
+        .query("applicant == @author['name']")
         .replace(pd.NA, "")
     ).sort_values("year_applied", ascending=False)
-    grants_awards["time"] = (
-        grants_awards["year_start"].astype(pd.Int64Dtype()).astype(str)
-    )
-    s = grants_awards["year_end"].notna()
-    grants_awards.loc[s, "time"] = (
-        grants_awards.loc[s, "year_start"].astype(pd.Int64Dtype()).astype(str)
+    grants_df["time"] = grants_df["year_start"].astype(pd.Int64Dtype()).astype(str)
+    s = grants_df["year_end"].notna()
+    grants_df.loc[s, "time"] = (
+        grants_df.loc[s, "year_start"].astype(pd.Int64Dtype()).astype(str)
         + " - "
-        + grants_awards.loc[s, "year_end"].astype(pd.Int64Dtype()).astype(str)
+        + grants_df.loc[s, "year_end"].astype(pd.Int64Dtype()).astype(str)
     )
-    s = grants_awards["year_start"].isna()
-    grants_awards.loc[s, "time"] = grants_awards.loc[s, "year_applied"].astype(str)
+    s = grants_df["year_start"].isna()
+    grants_df.loc[s, "time"] = grants_df.loc[s, "year_applied"].astype(str)
 
-    grants_awards_list = list()
-    for _, g in grants_awards.iterrows():
-        p = GRANTS_AWARDS_FORMAT.format(
-            **g[grant_fields].to_dict(), indent=INDENT
-        ).replace("},{", "}{")
-        grants_awards_list.append(p)
+    grant_fields = ["time", "outcome", "title", "entity", "role", "amount", "comment"]
+    grants_awards_list = [
+        rf"\cventry{{{g['time']}}}{{{g['title']}}},{{{g['entity']}}}{{{g['role']}}}{{}}{{}}".replace(
+            "},{", "}{"
+        )
+        for _, g in grants_df.iterrows()
+    ]
 
-    pub_list = list()
-    for _, pub in pubs.query("publication_type.isin(@main_pub_types)").iterrows():
-        p = PUB_FORMAT.format(**pub.to_dict(), indent=INDENT)
-        p = p.replace(AUTHOR_NAME, f"\\underline{{{AUTHOR_NAME}}}")
-        pub_list.append(p)
+    pub_format = r"\item {authors}. \textbf{{{title}}}. {journal} ({year}).\n"
+    pub_format += r"{indent}\href{{https://dx.doi.org/{doi}}}{{doi:{doi}}}"
 
-    preprint_list = list()
-    for _, pub in pubs.query("publication_type.isin(@preprint_types)").iterrows():
-        p = PUB_FORMAT.format(**pub.to_dict(), indent=INDENT)
-        p = p.replace(AUTHOR_NAME, f"\\underline{{{AUTHOR_NAME}}}")
-        preprint_list.append(p)
+    main_pub_types = ["journal", "review"]
+    preprint_types = ["preprint"]
+    alt_pub_types = ["opinion"]
 
-    alt_list = list()
-    for _, pub in pubs.query("publication_type.isin(@alt_pub_types)").iterrows():
-        p = PUB_FORMAT.format(**pub.to_dict(), indent=INDENT)
-        p = p.replace(AUTHOR_NAME, f"\\underline{{{AUTHOR_NAME}}}")
-        alt_list.append(p)
+    author_name = author["name"]
+    author_name_underline = f"\\underline{{{author_name}}}"
 
-    metrics = get_google_scholar_metrics()
+    pub_list = [
+        pub_format.format(**pub.to_dict(), indent=indent).replace(
+            author_name, author_name_underline
+        )
+        for _, pub in pubs.query("publication_type.isin(@main_pub_types)").iterrows()
+    ]
+    preprint_list = [
+        pub_format.format(**pub.to_dict(), indent=indent).replace(
+            author_name, author_name_underline
+        )
+        for _, pub in pubs.query("publication_type.isin(@preprint_types)").iterrows()
+    ]
+    alt_list = [
+        pub_format.format(**pub.to_dict(), indent=indent).replace(
+            author_name, author_name_underline
+        )
+        for _, pub in pubs.query("publication_type.isin(@alt_pub_types)").iterrows()
+    ]
+
+    metrics = get_google_scholar_metrics(author["google_scholar"])
     n_preprints = pubs.query("publication_type.isin(@preprint_types)").shape[0]
     n_peer_reviewed = pubs.query("publication_type.isin(@main_pub_types)").shape[0]
-    ff = AUTHOR_NAME + r"\*"
+    ff = author["name"] + r"\*"
     n_first_author = pubs.query(
-        f"authors.str.startswith(@AUTHOR_NAME) | authors.str.contains('{ff}')"
+        f"authors.str.startswith(@author['name']) | authors.str.contains('{ff}')"
     ).shape[0]
-    ll = AUTHOR_NAME + LAST_AUTHOR_SIGN
-    n_last_author = pubs.query(f"authors.str.contains('{ll}', regex=False)").shape[0]
-
-    teaching_list = format_teaching()
-    supervision_list = format_supervision()
-    courses_list = format_courses()
-    admin_list = format_administrative()
-    software_list = format_software()
-    patents_list = format_patents()
-    talks_list = format_talks()
-    posters_list = format_posters()
-    current_positions_list = format_current_positions()
-    past_positions_list = format_past_positions()
-    key_research_list = format_key_research()
+    n_last_author = pubs.query(
+        f"authors.str.contains('{author['name']}$^\\\\Omega$', regex=False)"
+    ).shape[0]
 
     phrases = [
         f"Publications: {pubs.shape[0]} ({n_peer_reviewed} peer reviewed, {n_preprints} preprints, {n_first_author} first-author, {n_last_author} last-author)",
         f"Citations: {metrics['citations']} (last 5 years: {metrics['citations_5_years']})",
         f"h-index: {metrics['h_index']} (last 5 years: {metrics['h_index_5_years']})",
-        f"Google Scholar Profile: \\href{{https://scholar.google.com/citations?user={GOOGLE_SCHOLAR_ID}}}{{https://scholar.google.com/citations?user={GOOGLE_SCHOLAR_ID}}}",
+        f"Google Scholar Profile: \\href{{https://scholar.google.com/citations?user={author['google_scholar']}}}{{https://scholar.google.com/citations?user={author['google_scholar']}}}",
     ]
-    metrics_text = "    ".join([f"\\cvitem{{}}{{\n{INDENT}{ph}}}\n" for ph in phrases])
+    metrics_text = "    ".join([rf"\cvitem{{}}{{\n{indent}{ph}}}\n" for ph in phrases])
 
-    for input_file, output_file in PUBS_TEX.items():
-        with open(INPUT_DIR / input_file, "r") as handle:
-            content = (
-                handle.read()
-                .replace("{{firstname}}", FIRSTNAME)
-                .replace("{{familyname}}", FAMILYNAME)
-                .replace("{{title}}", TITLE)
-                .replace("{{subtitle}}", SUBTITLE)
-                .replace("{{email}}", EMAIL)
-                .replace("{{homepage}}", HOMEPAGE)
-                .replace("{{orcid}}", ORCID)
-                .replace("{{github}}", GITHUB)
-                .replace("{{twitter}}", TWITTER)
-                .replace(
-                    "{{grants_awards_go_here}}",
-                    ("\n" + INDENT).join(grants_awards_list),
-                )
-                .replace("{{publications_go_here}}", ("\n\n" + INDENT).join(pub_list))
-                .replace("{{preprints_go_here}}", ("\n\n" + INDENT).join(preprint_list))
-                .replace("{{alt_pubs_go_here}}", ("\n\n" + INDENT).join(alt_list))
-                .replace("{{metrics_go_here}}", metrics_text)
-                .replace("{{teaching_go_here}}", teaching_list)
-                .replace("{{supervision_go_here}}", supervision_list)
-                .replace("{{courses_go_here}}", courses_list)
-                .replace("{{administrative_go_here}}", admin_list)
-                .replace("{{software_go_here}}", software_list)
-                .replace("{{patents_go_here}}", patents_list)
-                .replace("{{talks_go_here}}", talks_list)
-                .replace("{{posters_go_here}}", posters_list)
-                .replace("{{current_positions_go_here}}", current_positions_list)
-                .replace("{{past_positions_go_here}}", past_positions_list)
-                .replace("{{key_research_go_here}}", key_research_list)
-                .replace("{{current_date}}", DATE)
-            )
+    input_dir = Path(config["input_dir"])
+    output_dir = Path(config["output_dir"])
+    date = datetime.now().isoformat().split("T")[0]
 
-        with open(OUTPUT_DIR / output_file, "w") as handle:
-            handle.write(content)
+    replacements = {
+        "{{firstname}}": author["firstname"],
+        "{{familyname}}": author["familyname"],
+        "{{title}}": author["title"],
+        "{{subtitle}}": author["subtitle"],
+        "{{email}}": author["email"],
+        "{{homepage}}": author["homepage"],
+        "{{orcid}}": author["orcid"],
+        "{{github}}": author["github"],
+        "{{twitter}}": author["twitter"],
+        "{{grants_awards_go_here}}": ("\n" + indent).join(grants_awards_list),
+        "{{publications_go_here}}": ("\n\n" + indent).join(pub_list),
+        "{{preprints_go_here}}": ("\n\n" + indent).join(preprint_list),
+        "{{alt_pubs_go_here}}": ("\n\n" + indent).join(alt_list),
+        "{{metrics_go_here}}": metrics_text,
+        "{{teaching_go_here}}": format_teaching(config),
+        "{{supervision_go_here}}": format_supervision(config),
+        "{{courses_go_here}}": format_courses(config),
+        "{{administrative_go_here}}": format_administrative(config),
+        "{{software_go_here}}": format_software(config),
+        "{{patents_go_here}}": format_patents(config),
+        "{{talks_go_here}}": format_talks(config),
+        "{{posters_go_here}}": format_posters(config),
+        "{{current_positions_go_here}}": format_current_positions(config),
+        "{{past_positions_go_here}}": format_past_positions(config),
+        "{{key_research_go_here}}": format_key_research(config),
+        "{{current_date}}": date,
+    }
+
+    for input_file, output_file in {"_cv.tex": "cv.tex", "_lop.tex": "lop.tex"}.items():
+        content = (input_dir / input_file).read_text()
+        for old, new in replacements.items():
+            content = content.replace(old, new)
+        (output_dir / output_file).write_text(content)
 
     return 0
 
 
-def get_google_scholar_metrics():
-    """
-    Get metrics from Google Scholar profile
-    """
-    url = f"https://scholar.google.at/citations?user={GOOGLE_SCHOLAR_ID}&hl=en"
+def load_config() -> dict:
+    with open(Path("data/config.yaml")) as f:
+        return yaml.safe_load(f)
+
+
+def _cache_is_expired() -> bool:
+    import time
+
+    cache_joblib = CACHE_DIR / "joblib"
+    if not cache_joblib.exists():
+        return True
+    mtime = cache_joblib.stat().st_mtime
+    age_days = (time.time() - mtime) / 86400
+    return age_days > CACHE_TTL_DAYS
+
+
+@memory.cache
+def _fetch_google_scholar_metrics(google_scholar_id: str) -> dict:
+    from selenium import webdriver
+    from selenium.webdriver.chrome.options import Options
+    from selenium.webdriver.chrome.service import Service
+    from bs4 import BeautifulSoup
+
+    url = f"https://scholar.google.at/citations?user={google_scholar_id}&hl=en"
 
     options = Options()
     options.add_argument("--headless")
@@ -200,29 +178,39 @@ def get_google_scholar_metrics():
     soup = BeautifulSoup(html, "html.parser")
 
     metrics = soup.find_all("td", class_="gsc_rsb_std")
-    citations = metrics[0].text
-    citations_5_years = metrics[1].text
-    h_index = metrics[2].text
-    h_index_5_years = metrics[3].text
-    return pd.Series(
-        [citations, citations_5_years, h_index, h_index_5_years],
-        ["citations", "citations_5_years", "h_index", "h_index_5_years"],
+    return {
+        "citations": metrics[0].text,
+        "citations_5_years": metrics[1].text,
+        "h_index": metrics[2].text,
+        "h_index_5_years": metrics[3].text,
+    }
+
+
+def get_google_scholar_metrics(google_scholar_id: str) -> dict:
+    if _cache_is_expired():
+        memory.clear()
+    return _fetch_google_scholar_metrics(google_scholar_id)
+
+
+def format_teaching(config: dict) -> str:
+    df = pd.read_csv(Path(config["data_paths"]["teaching"]), comment="#").replace(
+        pd.NA, ""
     )
-
-
-def format_teaching():
-    df = pd.read_csv(TEACHING_CSV, comment="#").replace(pd.NA, "")
+    indent = "        "
     items = []
     for _, row in df.iterrows():
         year = str(row.get("year", ""))
         recurring = " - present" if pd.notna(row.get("recurring")) else ""
         desc = row.get("name", "").replace("_", r"\_")
         items.append(f"\\cvitem{{{year}{recurring}}}{{{desc}}}")
-    return INDENT + ("\n" + INDENT).join(items)
+    return indent + ("\n" + indent).join(items)
 
 
-def format_supervision():
-    df = pd.read_csv(SUPERVISION_CSV, comment="#").replace(pd.NA, "")
+def format_supervision(config: dict) -> str:
+    df = pd.read_csv(Path(config["data_paths"]["supervision"]), comment="#").replace(
+        pd.NA, ""
+    )
+    indent = "        "
     items = []
     for _, row in df.iterrows():
         start = str(row.get("year_start", ""))
@@ -232,11 +220,14 @@ def format_supervision():
         role = row.get("role", "").replace("_", r"\_")
         inst = row.get("institution", "").replace("_", r"\_")
         items.append(f"\\cvitem{{{time_range}}}{{{name}, {role} - {inst}}}")
-    return INDENT + ("\n" + INDENT).join(items)
+    return indent + ("\n" + indent).join(items)
 
 
-def format_courses():
-    df = pd.read_csv(COURSES_CSV, comment="#").replace(pd.NA, "")
+def format_courses(config: dict) -> str:
+    df = pd.read_csv(Path(config["data_paths"]["courses"]), comment="#").replace(
+        pd.NA, ""
+    )
+    indent = "        "
     items = []
     for _, row in df.iterrows():
         year = str(row.get("year", ""))
@@ -245,11 +236,14 @@ def format_courses():
         loc = row.get("location", "")
         loc_str = f" - {loc}" if loc else ""
         items.append(f"\\cvitem{{{year}}}{{{name} - {org}{loc_str}}}")
-    return INDENT + ("\n" + INDENT).join(items)
+    return indent + ("\n" + indent).join(items)
 
 
-def format_administrative():
-    df = pd.read_csv(ADMIN_CSV, comment="#").replace(pd.NA, "")
+def format_administrative(config: dict) -> str:
+    df = pd.read_csv(Path(config["data_paths"]["administrative"]), comment="#").replace(
+        pd.NA, ""
+    )
+    indent = "        "
     items = []
     for _, row in df.iterrows():
         start = str(row.get("year_start", ""))
@@ -260,22 +254,28 @@ def format_administrative():
         loc = row.get("location", "")
         loc_str = f", {loc}" if loc else ""
         items.append(f"\\cvitem{{{time_range}}}{{{name}, {inst}{loc_str}}}")
-    return INDENT + ("\n" + INDENT).join(items)
+    return indent + ("\n" + indent).join(items)
 
 
-def format_software():
-    df = pd.read_csv(SOFTWARE_CSV, comment="#").replace(pd.NA, "")
+def format_software(config: dict) -> str:
+    df = pd.read_csv(Path(config["data_paths"]["software"]), comment="#").replace(
+        pd.NA, ""
+    )
+    indent = "        "
     items = []
     for _, row in df.iterrows():
         name = row.get("name", "").replace("_", r"\_")
         desc = row.get("description", "").replace("_", r"\_")
         url = row.get("github_url", "").replace("_", r"\_")
         items.append(f"\\cvitem{{{name}}}{{{desc}\\newline\\href{{{url}}}{{{url}}}}}")
-    return INDENT + ("\n" + INDENT).join(items)
+    return indent + ("\n" + indent).join(items)
 
 
-def format_patents():
-    df = pd.read_csv(PATENTS_CSV, comment="#").replace(pd.NA, "")
+def format_patents(config: dict) -> str:
+    df = pd.read_csv(Path(config["data_paths"]["patents"]), comment="#").replace(
+        pd.NA, ""
+    )
+    indent = "        "
     if df.empty:
         return ""
     items = []
@@ -292,19 +292,19 @@ def format_patents():
         items.append(f"\\textbf{{{title}}}. \\textit{{{office}}}, {date}. {comment}")
     content = ("\n        \\item ").join(items)
     return (
-        "\\cvitem{\\underline{"
-        + status_pretty
-        + "}}{}\n"
-        + "    \\begin{etaremune}[leftmargin=1.0cm, itemindent=0pt, topsep=10pt, itemsep=2pt, partopsep=0pt, parsep=0pt]\n"
-        + "        \\item "
-        + content
+        rf"\cvitem{{\underline{{{status_pretty}}}}}# }}"
         + "\n"
-        + "    \\end{etaremune}"
+        + r"    \begin{etaremune}[leftmargin=1.0cm, itemindent=0pt, topsep=10pt, itemsep=2pt, partopsep=0pt, parsep=0pt]"
+        + "\n"
+        rf"        \item {content}" + "\n"
+        "    \\end{etaremune}"
+    ).replace("}# }", "}{}")
+
+
+def format_talks(config: dict) -> str:
+    df = pd.read_csv(Path(config["data_paths"]["talks"]), comment="#").replace(
+        pd.NA, ""
     )
-
-
-def format_talks():
-    df = pd.read_csv(TALKS_CSV, comment="#").replace(pd.NA, "")
     if df.empty:
         return ""
     df = df.sort_values("date", ascending=False)
@@ -318,16 +318,16 @@ def format_talks():
     content = ("\n        \\item ").join(items)
     return (
         "\\cvitem{\\underline{Conference talks}}{}\n"
-        + "    \\begin{etaremune}[leftmargin=1.0cm,itemindent=0pt,topsep=10pt,itemsep=2pt,partopsep=0pt,parsep=0pt]\n"
-        + "        \\item "
-        + content
-        + "\n"
-        + "    \\end{etaremune}"
+        "    \\begin{etaremune}[leftmargin=1.0cm,itemindent=0pt,topsep=10pt,itemsep=2pt,partopsep=0pt,parsep=0pt]\n"
+        f"        \\item {content}\n"
+        "    \\end{etaremune}"
     )
 
 
-def format_posters():
-    df = pd.read_csv(POSTERS_CSV, comment="#").replace(pd.NA, "")
+def format_posters(config: dict) -> str:
+    df = pd.read_csv(Path(config["data_paths"]["posters"]), comment="#").replace(
+        pd.NA, ""
+    )
     if df.empty:
         return ""
     df = df.sort_values("date", ascending=False)
@@ -347,39 +347,31 @@ def format_posters():
     content = ("\n        \\item ").join(items)
     return (
         "\\cvitem{\\underline{Conference posters}}{}\n"
-        + "    \\begin{etaremune}[leftmargin=1.0cm,itemindent=0pt,topsep=10pt,itemsep=2pt,partopsep=0pt,parsep=0pt]\n"
-        + "        \\item "
-        + content
-        + "\n"
-        + "    \\end{etaremune}"
+        "    \\begin{etaremune}[leftmargin=1.0cm,itemindent=0pt,topsep=10pt,itemsep=2pt,partopsep=0pt,parsep=0pt]\n"
+        f"        \\item {content}\n"
+        "    \\end{etaremune}"
     )
 
 
-def format_current_positions():
+def format_current_positions(config: dict) -> str:
+    indent = "        "
     items = []
-    for pos in CONFIG.get("current_positions", []):
+    for pos in config.get("current_positions", []):
         start = pos.get("start_date", "")[:7].replace("-", "/")
         time_str = start + " - "
         position = pos.get("position", "").replace("_", r"\_")
         institution = pos.get("institution", "").replace("_", r"\_")
         location = pos.get("location", "")
         items.append(
-            "\\cventry{"
-            + time_str
-            + "}{"
-            + position
-            + "}{\\newline"
-            + institution
-            + "}{"
-            + location
-            + "}{}{}"
+            f"\\cventry{{{time_str}}}{{{position}}}{{\\newline{institution}}}{{{location}}}{{}}{{}}"
         )
-    return INDENT + ("\n" + INDENT).join(items)
+    return indent + ("\n" + indent).join(items)
 
 
-def format_past_positions():
+def format_past_positions(config: dict) -> str:
+    indent = "        "
     items = []
-    for pos in CONFIG.get("past_positions", []):
+    for pos in config.get("past_positions", []):
         start = pos.get("start_date", "")[:7].replace("-", "/")
         end = (
             pos.get("end_date", "")[:7].replace("-", "/") if pos.get("end_date") else ""
@@ -391,15 +383,16 @@ def format_past_positions():
         supervisor = pos.get("supervisor", "")
         supervisor_str = f"Supervisor: {supervisor}" if supervisor else ""
         items.append(
-            rf"\cventry{{{time_str}}}{{{position}}}{{{institution}}}{{{location}}}{{}}{{{supervisor_str}}}"
+            f"\\cventry{{{time_str}}}{{{position}}}{{{institution}}}{{{location}}}{{}}{{{supervisor_str}}}"
         )
-    return INDENT + ("\n" + INDENT).join(items)
+    return indent + ("\n" + indent).join(items)
 
 
-def format_key_research():
+def format_key_research(config: dict) -> str:
+    indent = "        "
     items = []
     for pub in sorted(
-        CONFIG.get("key_research", []), key=lambda x: x.get("order", 999)
+        config.get("key_research", []), key=lambda x: x.get("order", 999)
     ):
         doi = pub.get("doi", "")
         authors = pub.get("authors_short", "").replace("_", r"\_")
@@ -410,16 +403,12 @@ def format_key_research():
         doi_str = f" \\href{{https://doi.org/{doi}}}{{doi:{doi}}}" if doi else ""
         order_num = pub.get("order", "")
         items.append(
-            "\\cvitem{"
-            + f"{order_num}."
-            + "} {"
-            + f"{authors}{last_author} \\textbf{{{title}}}. {journal} ({year}).{doi_str}"
-            + "}"
+            f"\\cvitem{{{order_num}.}}{{{authors}{last_author} \\textbf{{{title}}}. {journal} ({year}).{doi_str}}}"
         )
     items.append(
         r"\cvitem{}{$\Omega$ \textit{corresponding author}; * \textit{first-author}}"
     )
-    return ("\n" + INDENT).join(items)
+    return ("\n" + indent).join(items)
 
 
 if __name__ == "__main__":
