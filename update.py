@@ -28,8 +28,8 @@ grant_fields = [
 ]
 PUB_FORMAT = """\\item {authors}. \\textbf{{{title}}}. {journal} ({year}).\n"""
 PUB_FORMAT += """{indent}\\href{{https://dx.doi.org/{doi}}}{{doi:{doi}}}"""
-PUBS_CSV = Path("publications.csv")
-GRANTS_CSV = Path("grants.csv")
+PUBS_CSV = Path("data/publications.csv")
+GRANTS_CSV = Path("data/grants.csv")
 INPUT_DIR = Path("source")
 OUTPUT_DIR = Path("source")
 DATE = datetime.now().isoformat().split("T")[0]

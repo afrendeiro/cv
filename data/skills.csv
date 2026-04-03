@@ -1,0 +1,13 @@
+category,skill,description,proficiency
+"Data science","Data processing pipelines","Development of data processing pipelines","expert"
+"Data science","Unsupervised analysis","Data-driven unsupervised analysis and visualisation","expert"
+"Data science","Statistical analysis","Statistical analysis and interpretation","expert"
+"Data science","Machine learning","Application of unsupervised and supervised machine learning models","expert"
+"Data science","Bayesian methods","Application of Bayesian methods and probabilistic programming","expert"
+"Applications","Image analysis","Analysis of image data: IMC, IHC, IF, brightfield, WSI","expert"
+"Applications","Single-cell sequencing","Analysis of single cell *-seq data","expert"
+"Applications","Bulk sequencing","Analysis of bulk ATAC-/ChIP-/RNA-seq","expert"
+"Applications","Flow cytometry","Analysis of CyTOF and flow cytometry data","expert"
+"Applications","CRISPR screening","Analysis of CRISPR screens","expert"
+"Programming","Python","Experienced in Python programming","expert"
+"Programming","Software development","Competence in software development: version control, testing, continuous integration","expert"
