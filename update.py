@@ -6,8 +6,9 @@ from pathlib import Path
 
 import pandas as pd
 
-import selenium
-from selenium.webdriver import Firefox
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
 
 
@@ -135,19 +136,13 @@ def get_google_scholar_metrics():
     Get metrics from Google Scholar profile
     """
     url = f"https://scholar.google.at/citations?user={GOOGLE_SCHOLAR_ID}&hl=en"
-    # req = requests.get(url)
-    # req.raise_for_status()
-    # soup = BeautifulSoup(req.content, "html.parser")
 
-    firefox_bin = "/snap/firefox/current/usr/lib/firefox/firefox"
-    firefoxdriver_bin = "/snap/firefox/current/usr/lib/firefox/geckodriver"
-    options = selenium.webdriver.firefox.options.Options()
+    options = Options()
     options.add_argument("--headless")
-    options.binary_location = firefox_bin
-    service = selenium.webdriver.firefox.service.Service(
-        executable_path=firefoxdriver_bin
-    )
-    with Firefox(service=service, options=options) as driver:
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    service = Service(executable_path="/usr/bin/chromedriver")
+    with webdriver.Chrome(service=service, options=options) as driver:
         driver.get(url)
         html = driver.page_source
     soup = BeautifulSoup(html, "html.parser")
