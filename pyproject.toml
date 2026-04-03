@@ -1,0 +1,13 @@
+[project]
+name = "cv"
+version = "0.1.0"
+description = "Personal CV using LaTeX (ModernCV), with data sourced from CSV and YAML"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "beautifulsoup4>=4.13.3",
+    "joblib>=1.5.0",
+    "pandas>=3",
+    "pyyaml>=6.0.0",
+    "selenium>=4.29.0",
+]

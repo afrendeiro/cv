@@ -1,6 +1,6 @@
 # CV
 
-Personal CV using LaTeX (ModernCV), with data sourced from CSV files and config.yaml.
+Personal CV using LaTeX (ModernCV), with data sourced from CSV and YAML.
 
 A Python script (`build.py`) reads data files and fills placeholders in TeX template files.
 
