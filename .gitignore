@@ -1,8 +1,12 @@
+__pycache__
 viz*
 ideas
 build/
 
 *.sh
+source/cv.tex
+source/resume.tex
+source/lop.tex
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof

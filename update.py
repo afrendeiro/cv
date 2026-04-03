@@ -31,6 +31,14 @@ PUB_FORMAT = """\\item {authors}. \\textbf{{{title}}}. {journal} ({year}).\n"""
 PUB_FORMAT += """{indent}\\href{{https://dx.doi.org/{doi}}}{{doi:{doi}}}"""
 PUBS_CSV = Path("data/publications.csv")
 GRANTS_CSV = Path("data/grants.csv")
+TEACHING_CSV = Path("data/teaching.csv")
+SUPERVISION_CSV = Path("data/supervision.csv")
+COURSES_CSV = Path("data/courses_attended.csv")
+ADMIN_CSV = Path("data/administrative.csv")
+SOFTWARE_CSV = Path("data/software.csv")
+PATENTS_CSV = Path("data/patents.csv")
+TALKS_CSV = Path("data/talks.csv")
+POSTERS_CSV = Path("data/posters.csv")
 INPUT_DIR = Path("source")
 OUTPUT_DIR = Path("source")
 DATE = datetime.now().isoformat().split("T")[0]
@@ -100,6 +108,15 @@ def main() -> int:
     ll = AUTHOR_NAME + LAST_AUTHOR_SIGN
     n_last_author = pubs.query(f"authors.str.contains('{ll}', regex=False)").shape[0]
 
+    teaching_list = format_teaching()
+    supervision_list = format_supervision()
+    courses_list = format_courses()
+    admin_list = format_administrative()
+    software_list = format_software()
+    patents_list = format_patents()
+    talks_list = format_talks()
+    posters_list = format_posters()
+
     phrases = [
         f"Publications: {pubs.shape[0]} ({n_peer_reviewed} peer reviewed, {n_preprints} preprints, {n_first_author} first-author, {n_last_author} last-author)",
         f"Citations: {metrics['citations']} (last 5 years: {metrics['citations_5_years']})",
@@ -120,6 +137,14 @@ def main() -> int:
                 .replace("{{preprints_go_here}}", ("\n\n" + INDENT).join(preprint_list))
                 .replace("{{alt_pubs_go_here}}", ("\n\n" + INDENT).join(alt_list))
                 .replace("{{metrics_go_here}}", metrics_text)
+                .replace("{{teaching_go_here}}", teaching_list)
+                .replace("{{supervision_go_here}}", supervision_list)
+                .replace("{{courses_go_here}}", courses_list)
+                .replace("{{administrative_go_here}}", admin_list)
+                .replace("{{software_go_here}}", software_list)
+                .replace("{{patents_go_here}}", patents_list)
+                .replace("{{talks_go_here}}", talks_list)
+                .replace("{{posters_go_here}}", posters_list)
                 .replace("{{current_date}}", DATE)
             )
 
@@ -153,6 +178,151 @@ def get_google_scholar_metrics():
     return pd.Series(
         [citations, citations_5_years, h_index, h_index_5_years],
         ["citations", "citations_5_years", "h_index", "h_index_5_years"],
+    )
+
+
+def format_teaching():
+    df = pd.read_csv(TEACHING_CSV, comment="#").replace(pd.NA, "")
+    items = []
+    for _, row in df.iterrows():
+        year = str(row.get("year", ""))
+        recurring = " - present" if pd.notna(row.get("recurring")) else ""
+        desc = row.get("name", "").replace("_", r"\_")
+        items.append(f"\\cvitem{{{year}{recurring}}}{{{desc}}}")
+    return INDENT + ("\n" + INDENT).join(items)
+
+
+def format_supervision():
+    df = pd.read_csv(SUPERVISION_CSV, comment="#").replace(pd.NA, "")
+    items = []
+    for _, row in df.iterrows():
+        start = str(row.get("year_start", ""))
+        end = str(row.get("year_end", ""))
+        time_range = f"{start} - {end}" if end else f"{start} - "
+        name = row.get("name", "").replace("_", r"\_")
+        role = row.get("role", "").replace("_", r"\_")
+        inst = row.get("institution", "").replace("_", r"\_")
+        items.append(f"\\cvitem{{{time_range}}}{{{name}, {role} - {inst}}}")
+    return INDENT + ("\n" + INDENT).join(items)
+
+
+def format_courses():
+    df = pd.read_csv(COURSES_CSV, comment="#").replace(pd.NA, "")
+    items = []
+    for _, row in df.iterrows():
+        year = str(row.get("year", ""))
+        name = row.get("name", "").replace("_", r"\_")
+        org = row.get("organizer", "").replace("_", r"\_")
+        loc = row.get("location", "")
+        loc_str = f" - {loc}" if loc else ""
+        items.append(f"\\cvitem{{{year}}}{{{name} - {org}{loc_str}}}")
+    return INDENT + ("\n" + INDENT).join(items)
+
+
+def format_administrative():
+    df = pd.read_csv(ADMIN_CSV, comment="#").replace(pd.NA, "")
+    items = []
+    for _, row in df.iterrows():
+        start = str(row.get("year_start", ""))
+        end = str(row.get("year_end", ""))
+        time_range = f"{start} - {end}" if end else f"{start} - "
+        name = row.get("name", "").replace("_", r"\_")
+        inst = row.get("institution", "").replace("_", r"\_")
+        loc = row.get("location", "")
+        loc_str = f", {loc}" if loc else ""
+        items.append(f"\\cvitem{{{time_range}}}{{{name}, {inst}{loc_str}}}")
+    return INDENT + ("\n" + INDENT).join(items)
+
+
+def format_software():
+    df = pd.read_csv(SOFTWARE_CSV, comment="#").replace(pd.NA, "")
+    items = []
+    for _, row in df.iterrows():
+        name = row.get("name", "").replace("_", r"\_")
+        desc = row.get("description", "").replace("_", r"\_")
+        url = row.get("github_url", "").replace("_", r"\_")
+        items.append(f"\\cvitem{{{name}}}{{{desc}\\newline\\href{{{url}}}{{{url}}}}}")
+    return INDENT + ("\n" + INDENT).join(items)
+
+
+def format_patents():
+    df = pd.read_csv(PATENTS_CSV, comment="#").replace(pd.NA, "")
+    if df.empty:
+        return ""
+    items = []
+    for _, row in df.iterrows():
+        title = row.get("title", "").replace("_", r"\_")
+        office = row.get("office", "").replace("_", r"\_")
+        status = row.get("status", "")
+        date = row.get("date", "")[:7] if pd.notna(row.get("date")) else ""
+        comment = row.get("comment", "")
+        status_pretty = {
+            "approval_pending": "Approval pending",
+            "granted": "Granted",
+        }.get(status, status)
+        items.append(f"\\textbf{{{title}}}. \\textit{{{office}}}, {date}. {comment}")
+    content = ("\n        \\item ").join(items)
+    return (
+        "\\cvitem{\\underline{"
+        + status_pretty
+        + "}}{}\n"
+        + "    \\begin{etaremune}[leftmargin=1.0cm, itemindent=0pt, topsep=10pt, itemsep=2pt, partopsep=0pt, parsep=0pt]\n"
+        + "        \\item "
+        + content
+        + "\n"
+        + "    \\end{etaremune}"
+    )
+
+
+def format_talks():
+    df = pd.read_csv(TALKS_CSV, comment="#").replace(pd.NA, "")
+    if df.empty:
+        return ""
+    df = df.sort_values("date", ascending=False)
+    items = []
+    for _, row in df.iterrows():
+        title = row.get("title", "").replace("_", r"\_")
+        event = row.get("event", "").replace("_", r"\_")
+        location = row.get("location", "")
+        date = row.get("date", "")[:7] if pd.notna(row.get("date")) else ""
+        items.append(f"\\textbf{{{title}}}. \\textit{{{event}}}, {date}. {location}")
+    content = ("\n        \\item ").join(items)
+    return (
+        "\\cvitem{\\underline{Conference talks}}{}\n"
+        + "    \\begin{etaremune}[leftmargin=1.0cm,itemindent=0pt,topsep=10pt,itemsep=2pt,partopsep=0pt,parsep=0pt]\n"
+        + "        \\item "
+        + content
+        + "\n"
+        + "    \\end{etaremune}"
+    )
+
+
+def format_posters():
+    df = pd.read_csv(POSTERS_CSV, comment="#").replace(pd.NA, "")
+    if df.empty:
+        return ""
+    df = df.sort_values("date", ascending=False)
+    items = []
+    for _, row in df.iterrows():
+        title = row.get("title", "").replace("_", r"\_")
+        event = row.get("event", "").replace("_", r"\_")
+        location = row.get("location", "")
+        date = row.get("date", "")[:7] if pd.notna(row.get("date")) else ""
+        doi = row.get("doi", "")
+        doi_str = f" \\href{{https://doi.org/{doi}}}{{doi:{doi}}}" if doi else ""
+        comment = row.get("comment", "")
+        comment_str = f" \\textbf{{{comment}}}" if comment else ""
+        items.append(
+            f"\\textbf{{{title}}}. \\textit{{{event}}}, {date}. {location}.{doi_str}{comment_str}"
+        )
+    content = ("\n        \\item ").join(items)
+    return (
+        "\\cvitem{\\underline{Conference posters}}{}\n"
+        + "    \\begin{etaremune}[leftmargin=1.0cm,itemindent=0pt,topsep=10pt,itemsep=2pt,partopsep=0pt,parsep=0pt]\n"
+        + "        \\item "
+        + content
+        + "\n"
+        + "    \\end{etaremune}"
     )
 
 

@@ -1,25 +1,26 @@
 title,event,event_type,date,location,role,abstract,url,comment
-"Biological image analysis across anatomical scales","Machine-Learning Assisted Image Reconstruction workshop of the Austrian Academy of Sciences","workshop",2025-11-25,"Vienna, Austria","speaker","","",""
-"Leveraging spatial biology insights across anatomical scales","2nd European CyTOF conference","conference",2025-11-20,"Vienna, Austria","speaker","","",""
-"","Boehringer Ingelheim","invited",2025-10-30,"Vienna, Austria","speaker","","",""
-"Histological aging signatures enable tissue-specific disease prediction from blood","17th OeGMBT annual meeting","conference",2025-09-24,"Innsbruck, Austria","speaker","","",""
-"Histological aging signatures enable tissue-specific disease prediction from blood","Department of Pathology","seminar",2025-01-01,"Innsbruck, Austria","speaker","","",""
-"The histological basis of biological aging","The annual conference of the Austrian Platform for Precision Medicine","conference",2024-12-01,"Vienna, Austria","speaker","","",""
-"A cross anatomical view of aging biology and pathology","The IX Siena Think Tank. A vision of Immunooncology","conference",2024-10-01,"Siena, Italy","speaker","","",""
-"A cross anatomical view of aging biology and pathology","VitaDAO minisymposium: Aging across scales and systems","workshop",2024-06-01,"Vienna, Austria","speaker","","",""
-"A cross anatomical view of aging biology and pathology","Department of Mathematics, University of Oxford","seminar",2024-05-01,"Oxford, UK","speaker","","",""
-"AI & histopathology: State-of-the-art and next horizons","2024 EU-LIFE community meeting","conference",2024-04-01,"Vienna, Austria","speaker","","",""
-"Tissue-level Prediction of Biological Age and Pathology Incidence","Keystone Symposia on Single-Cell Biology: Tissue Genomics, Technologies and Disease","conference",2024-01-01,"Whistler, Canada","speaker","","",""
-"Spatially and temporally resolved COVID-19 pathology","33rd Annual Conference of the German Society for Cytometry","conference",2023-10-01,"Berlin, Germany","speaker","","",""
-"Multiplexed and spatial biology: connecting spatial scales","3rd International Danube Symposium on Whole Person Research","conference",2023-09-01,"Vienna, Austria","speaker","","",""
-"Unsupervised discovery of tissue architecture with graphs","Biological Data Science Meeting, Cold Spring Harbour Laboratory","conference",2022-10-01,"Cold Spring Harbor, USA","speaker","","",""
-"Spatial Analysis of Tissues and Organs","VBC PhD Symposium Pushing Boundaries","conference",2022-10-01,"Vienna, Austria","speaker","","",""
-"The spatial landscape of lung pathology during COVID-19 progression","IMC Summit","conference",2021-10-01,"Singapore","speaker","","",""
-"Chromatin mapping and single-cell immune profiling define the temporal dynamics of Ibrutinib response in CLL","Young Scientist Association of the Medical University of Vienna PhD Symposia","conference",2019-06-01,"Vienna, Austria","speaker","","",""
-"Chromatin mapping and single-cell immune profiling define the temporal dynamics of Ibrutinib response in CLL","Frontiers in Single Cell Genomics Meeting - Cold Spring Harbour Asia","conference",2018-11-01,"Suzhou, China","speaker","","",""
-"CROP-seq: updates on the single cell CRISPR screening method","10X User Group Meeting 2018","conference",2018-04-01,"Heidelberg, Germany","speaker","","",""
-"Pooled CRISPR screening with single-cell transcriptome readout","SLAS 2018","conference",2018-02-01,"San Diego, USA","speaker","","",""
-"Pooled CRISPR screening with single-cell transcriptome readout","Illumina User Group Meeting 2017","conference",2018-02-01,"Bern, Switzerland","speaker","","",""
-"Large-scale ATAC-seq profiling to identify disease subtypes, regulatory networks and monitoring treatment in CLL","Illumina User Group Meeting 2017","conference",2018-02-01,"Cologne, Germany","speaker","","",""
-"Pooled CRISPR screening with single-cell transcriptome readout","Ascona Workshop 2017","workshop",2017-05-01,"Ascona, Switzerland","speaker","","",""
-"Evolutionary conservation of the eumetazoan gene regulatory landscape","XVIII Portuguese Genetics Society Meeting","conference",2013-06-01,"Porto, Portugal","speaker","","",""
+Deep learning for histological image analysis and data privacy,Trustworthy AI Summit,workshop,2026-03-18,"Vienna, Austria",speaker,,,
+Spatial biology of human aging,"Center for Pathobiochemistry and Genetics, Medical University of Vienna",invited,2026-03-17,"Vienna, Austria",speaker,,,
+Biological image analysis across anatomical scales,Machine-Learning Assisted Image Reconstruction workshop of the Austrian Academy of Sciences,workshop,2025-11-25,"Vienna, Austria",speaker,,,
+Leveraging spatial biology insights across anatomical scales,2nd European CyTOF conference,conference,2025-11-20,"Vienna, Austria",speaker,,,
+Histological aging signatures enable tissue-specific disease prediction from blood,17th OeGMBT annual meeting,conference,2025-09-24,"Innsbruck, Austria",speaker,,,
+Histological aging signatures enable tissue-specific disease prediction from blood,Department of Pathology,seminar,2025-01-01,"Innsbruck, Austria",speaker,,,
+The histological basis of biological aging,The annual conference of the Austrian Platform for Precision Medicine,conference,2024-12-01,"Vienna, Austria",speaker,,,
+A cross anatomical view of aging biology and pathology,The IX Siena Think Tank. A vision of Immunooncology,conference,2024-10-01,"Siena, Italy",speaker,,,
+A cross anatomical view of aging biology and pathology,VitaDAO minisymposium: Aging across scales and systems,workshop,2024-06-01,"Vienna, Austria",speaker,,,
+A cross anatomical view of aging biology and pathology,"Department of Mathematics, University of Oxford",seminar,2024-05-01,"Oxford, UK",speaker,,,
+AI and histopathology: State-of-the-art and next horizons,2024 EU-LIFE community meeting,conference,2024-04-01,"Vienna, Austria",speaker,,,
+Tissue-level Prediction of Biological Age and Pathology Incidence,"Keystone Symposia on Single-Cell Biology: Tissue Genomics, Technologies and Disease",conference,2024-01-01,"Whistler, Canada",speaker,,,
+Spatially and temporally resolved COVID-19 pathology,33rd Annual Conference of the German Society for Cytometry,conference,2023-10-01,"Berlin, Germany",speaker,,,
+Multiplexed and spatial biology: connecting spatial scales,3rd International Danube Symposium on Whole Person Research,conference,2023-09-01,"Vienna, Austria",speaker,,,
+Unsupervised discovery of tissue architecture with graphs,"Biological Data Science Meeting, Cold Spring Harbour Laboratory",conference,2022-10-01,"Cold Spring Harbor, USA",speaker,,,
+Spatial Analysis of Tissues and Organs,VBC PhD Symposium Pushing Boundaries,conference,2022-10-01,"Vienna, Austria",speaker,,,
+The spatial landscape of lung pathology during COVID-19 progression,IMC Summit,conference,2021-10-01,Singapore,speaker,,,
+Chromatin mapping and single-cell immune profiling define the temporal dynamics of Ibrutinib response in CLL,Young Scientist Association of the Medical University of Vienna PhD Symposia,conference,2019-06-01,"Vienna, Austria",speaker,,,
+Chromatin mapping and single-cell immune profiling define the temporal dynamics of Ibrutinib response in CLL,Frontiers in Single Cell Genomics Meeting - Cold Spring Harbour Asia,conference,2018-11-01,"Suzhou, China",speaker,,,
+CROP-seq: updates on the single cell CRISPR screening method,10X User Group Meeting 2018,conference,2018-04-01,"Heidelberg, Germany",speaker,,,
+Pooled CRISPR screening with single-cell transcriptome readout,SLAS 2018,conference,2018-02-01,"San Diego, USA",speaker,,,
+Pooled CRISPR screening with single-cell transcriptome readout,Illumina User Group Meeting 2017,conference,2018-02-01,"Bern, Switzerland",speaker,,,
+"Large-scale ATAC-seq profiling to identify disease subtypes, regulatory networks and monitoring treatment in CLL",Illumina User Group Meeting 2017,conference,2018-02-01,"Cologne, Germany",speaker,,,
+Pooled CRISPR screening with single-cell transcriptome readout,Ascona Workshop 2017,workshop,2017-05-01,"Ascona, Switzerland",speaker,,,
+Evolutionary conservation of the eumetazoan gene regulatory landscape,XVIII Portuguese Genetics Society Meeting,conference,2013-06-01,"Porto, Portugal",speaker,,,
