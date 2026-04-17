@@ -40,23 +40,33 @@ viz: clean-viz
 clean-viz:
     rm -rf viz
 
+# Generate markdown for pandoc
+md:
+    uv run python build_md.py
+
+# Build PDF via pandoc + weasyprint (HTML to PDF)
+pdf-pandoc: md
+    mkdir -p build/pdf
+    cp cv.css build/pdf/
+    pandoc build/md/cv.md -o build/pdf/cv-pandoc.html --from=markdown -s -t html --css=cv.css --no-highlight --metadata=title="Curriculum Vitae" --metadata=author="André F. Rendeiro" --embed-resources --standalone
+    uv run --with weasyprint weasyprint build/pdf/cv-pandoc.html build/pdf/cv-pandoc.pdf
+    cp build/pdf/cv-pandoc.pdf ./cv-pandoc.pdf
+
 # Copy to website
 copy: pdf
     cp build/pdf/cv.pdf ./
     cp build/pdf/cv.pdf ../afrendeiro.github.io/
-    cp publications.csv ../afrendeiro.github.io/
-    cp publication_resources.csv ../afrendeiro.github.io/
+    cp data/publications.csv ../afrendeiro.github.io/
+    cp data/publication_resources.csv ../afrendeiro.github.io/
 
 # Update website
 web: copy
-    cd ../afrendeiro.github.io/ && just web
+    cd ../afrendeiro.github.io/ && make web
 
 # Git commit and push changes
 up: copy
     git add \
-        publications.csv \
-        publication_resources.csv \
-        source/_cv.tex \
+        data/* \
         cv.pdf
     git commit -m 'update publications'
     git push origin main
