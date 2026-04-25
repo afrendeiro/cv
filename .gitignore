@@ -1,7 +1,8 @@
+uv.lock
 __pycache__
-viz*
-ideas
 build/
+viz/*
+
 
 *.sh
 source/cv.tex
