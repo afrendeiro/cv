@@ -161,18 +161,14 @@ def _cache_is_expired() -> bool:
 @memory.cache
 def _fetch_google_scholar_metrics(google_scholar_id: str) -> dict:
     from selenium import webdriver
-    from selenium.webdriver.chrome.options import Options
-    from selenium.webdriver.chrome.service import Service
+    from selenium.webdriver.firefox.options import Options
     from bs4 import BeautifulSoup
 
     url = f"https://scholar.google.at/citations?user={google_scholar_id}&hl=en"
 
     options = Options()
-    options.add_argument("--headless")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    service = Service(executable_path="/usr/bin/chromedriver")
-    with webdriver.Chrome(service=service, options=options) as driver:
+    options.add_argument("-headless")
+    with webdriver.Firefox(options=options) as driver:
         driver.get(url)
         html = driver.page_source
     soup = BeautifulSoup(html, "html.parser")

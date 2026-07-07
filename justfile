@@ -11,14 +11,18 @@ update:
     uv run --with pyyaml --with requests --with beautifulsoup4 --with joblib python build.py
 
 
+# Install system-level TeX Live packages (requires sudo)
+install-tex-system:
+    sudo pacman -S --needed texlive-latex texlive-latexextra || true
+
 # Install required LaTeX packages (user-tree mode)
 install-tex-packages:
     tlmgr init-usertree || true
-    tlmgr --usermode install fontawesome5 etaremune || echo "Packages may already be installed"
+    tlmgr --usermode install lm academicons fontawesome5 etaremune || echo "Packages may already be installed"
     @echo "✓ LaTeX setup complete"
 
 # Build PDF from LaTeX
-pdf: install-tex-packages clean update
+pdf: install-tex-system install-tex-packages clean update
     mkdir -p build/pdf
     lualatex -interaction=nonstopmode -output-directory=build/pdf source/cv.tex || true
     lualatex -interaction=nonstopmode -output-directory=build/pdf source/cv.tex || true
@@ -71,11 +75,8 @@ up: copy
     git commit -m 'update publications'
     git push origin main
 
-# Install LaTeX packages (requires tlmgr)
-install-tex:
-    sudo apt install texlive texlive-latex-extra
-    tlmgr init-usertree
-    tlmgr install etaremune fontawesome5
+# Install all LaTeX packages (system + user tree)
+install-tex: install-tex-system install-tex-packages
 
 # Help
 help:
