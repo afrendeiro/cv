@@ -71,11 +71,11 @@ key_research:
     last_author: true
     
   - order: 3
-    doi: "10.1101/2024.11.14.618081"
+    doi: "10.1038/s41591-026-04566-5"
     authors_short: "Abila, Buljan, Zheng et al."
-    title: "Tissue clocks derived from histological signatures of biological aging enable tissue-specific aging predictions from blood"
-    journal: "BioRxiv"
-    year: 2024
+    title: "Histological aging signatures for monitoring tissue-specific aging and disease"
+    journal: "Nature Medicine"
+    year: 2026
     last_author: true
 
   - order: 4

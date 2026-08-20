@@ -15,9 +15,14 @@ doi,resource_type,resource_link
 10.1186/s13059-024-03469-3,Code,https://marsilea.readthedocs.io/
 10.1186/s13059-024-03469-3,Code,https://github.com/Marsilea-viz/marsilea
 10.1186/s13059-024-03469-3,Preprint,https://doi.org/10.1101/2024.02.14.580236
-10.1101/2024.11.14.618081,Code,https://github.com/rendeirolab/agingpath
-10.1101/2024.11.14.618081,Preprint,https://doi.org/10.1101/2024.11.14.618081
-10.1101/2024.11.14.618081,Data,https://zenodo.org/doi/10.5281/zenodo.13330658
+10.1038/s41591-026-04566-5,Press,https://www.focus.it/scienza/salute/gli-organi-del-corpo-umano-non-invecchiano-tutti-alla-stessa-velocita
+10.1038/s41591-026-04566-5,Press,https://www.newscientist.com/article/2458249-most-comprehensive-picture-yet-of-how-organs-age-at-different-rates/
+10.1038/s41591-026-04566-5,Preprint,https://doi.org/10.1101/2024.11.14.618081
+10.1038/s41591-026-04566-5,Data,https://zenodo.org/doi/10.5281/zenodo.13330658
+10.1038/s41591-026-04566-5,Data,https://doi.org/10.5281/zenodo.20709093
+10.1038/s41591-026-04566-5,Code,https://github.com/rendeirolab/agingpath
+10.1038/s41591-026-04566-5,Code,https://doi.org/10.5281/zenodo.20671352
+10.64898/2026.08.06.743198,Code,https://github.com/rendeirolab/stainx
 10.1038/s41556-024-01407-w,Code,https://github.com/reinisj/intron_tagging
 10.1038/s41467-024-46320-w,Data,https://zenodo.org/doi/10.5281/zenodo.5719187
 10.1038/s41467-024-46320-w,Code,https://github.com/ElementoLab/utuc-imc

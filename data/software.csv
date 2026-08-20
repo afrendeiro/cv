@@ -1,6 +1,7 @@
 name,description,github_url,role,category,comment
 "LazySlide","A package for modular and scalable whole slide image analysis","https://github.com/RendeiroLab/LazySlide","author","image-analysis",""
 "WSIData","Efficient data structures and IO for whole slide image analysis","https://github.com/RendeiroLab/WSIData","author","image-analysis",""
+"StainX","GPU-accelerated batch stain normalization for computational pathology","https://github.com/rendeirolab/stainx","author","image-analysis",""
 "wsi","A Python package for the processing of whole slide histopathological images","https://github.com/RendeiroLab/wsi","author","image-analysis",""
 "cytomine_utils","A package with utilities to interact with Cytomine APIs","https://github.com/RendeiroLab/cytomine_utils","author","utilities",""
 "IMC","A package for the analysis of imaging mass cytometry data","https://github.com/ElementoLab/imc","contributor","data-analysis",""
