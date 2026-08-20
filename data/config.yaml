@@ -7,7 +7,7 @@ author:
   subtitle: "Computational Biologist"
   email: "arendeiro@cemm.oeaw.ac.at"
   homepage: "andre-rendeiro.com"
-  orcid: "0000-0002-7635-3473"
+  orcid: "0000-0001-9362-5373"
   github: "afrendeiro"
   twitter: "afrendeiro"
   google_scholar: "lj17pqEAAAAJ"
@@ -55,22 +55,6 @@ past_positions:
 # Key Research (curated selection—manually maintained)
 key_research:
   - order: 1
-    doi: "10.1038/s41592-026-03044-7"
-    authors_short: "Zheng et al."
-    title: "LazySlide: accessible and interoperable whole slide image analysis"
-    journal: "Nature Methods"
-    year: 2026
-    last_author: true
-    
-  - order: 2
-    doi: "10.1101/2025.10.13.682110"
-    authors_short: "Buljan et al."
-    title: "Systematic mapping of human tissue microanatomy reveals age-associated remodeling and resilience"
-    journal: "BioRxiv"
-    year: 2025
-    last_author: true
-    
-  - order: 3
     doi: "10.1038/s41591-026-04566-5"
     authors_short: "Abila, Buljan, Zheng et al."
     title: "Histological aging signatures for monitoring tissue-specific aging and disease"
@@ -78,6 +62,22 @@ key_research:
     year: 2026
     last_author: true
 
+  - order: 2
+    doi: "10.1038/s41592-026-03044-7"
+    authors_short: "Zheng et al."
+    title: "LazySlide: accessible and interoperable whole slide image analysis"
+    journal: "Nature Methods"
+    year: 2026
+    last_author: true
+    
+  - order: 3
+    doi: "10.1101/2025.10.13.682110"
+    authors_short: "Buljan et al."
+    title: "Systematic mapping of human tissue microanatomy reveals age-associated remodeling and resilience"
+    journal: "BioRxiv"
+    year: 2025
+    last_author: true
+    
   - order: 4
     doi: "10.1038/s41592-022-01657-2"
     authors_short: "Kim et al."
