@@ -71,6 +71,14 @@ key_research:
     last_author: true
     
   - order: 3
+    doi: "10.64898/2026.09.06.749715"
+    authors_short: "Abila et al."
+    title: "A single-cell view of human tissue aging reveals architectural decline beyond cellular composition"
+    journal: "BioRxiv"
+    year: 2026
+    last_author: true
+
+  - order: 4
     doi: "10.1101/2025.10.13.682110"
     authors_short: "Buljan et al."
     title: "Systematic mapping of human tissue microanatomy reveals age-associated remodeling and resilience"
@@ -78,7 +86,7 @@ key_research:
     year: 2025
     last_author: true
     
-  - order: 4
+  - order: 5
     doi: "10.1038/s41592-022-01657-2"
     authors_short: "Kim et al."
     title: "Unsupervised discovery of tissue architecture in multiplexed imaging"
@@ -86,7 +94,7 @@ key_research:
     year: 2022
     last_author: true
     
-  - order: 5
+  - order: 6
     doi: "10.1038/s41586-021-03475-6"
     authors_short: "Rendeiro*, Ravichandran* et al."
     title: "The spatial landscape of lung pathology during COVID-19 progression"
