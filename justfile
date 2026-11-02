@@ -21,8 +21,8 @@ install-tex-packages:
     tlmgr --usermode install lm academicons fontawesome5 etaremune || echo "Packages may already be installed"
     @echo "✓ LaTeX setup complete"
 
-# Build PDF from LaTeX
-pdf: install-tex-system install-tex-packages clean update
+# Build PDF from LaTeX (run `just install-tex` once beforehand)
+pdf: clean update
     mkdir -p build/pdf
     lualatex -interaction=nonstopmode -output-directory=build/pdf source/cv.tex || true
     lualatex -interaction=nonstopmode -output-directory=build/pdf source/cv.tex || true
@@ -39,33 +39,18 @@ clean:
 
 # Generate visualizations
 viz: clean-viz
-    uv run python viz.py
+    uv run python scripts/viz.py
 
 clean-viz:
     rm -rf viz
 
-# Generate markdown for pandoc
-md:
-    uv run python build_md.py
-
-# Build PDF via pandoc + weasyprint (HTML to PDF)
-pdf-pandoc: md
-    mkdir -p build/pdf
-    cp cv.css build/pdf/
-    pandoc build/md/cv.md -o build/pdf/cv-pandoc.html --from=markdown -s -t html --css=cv.css --no-highlight --metadata=title="Curriculum Vitae" --metadata=author="André F. Rendeiro" --embed-resources --standalone
-    uv run --with weasyprint weasyprint build/pdf/cv-pandoc.html build/pdf/cv-pandoc.pdf
-    cp build/pdf/cv-pandoc.pdf ./cv-pandoc.pdf
-
-# Copy to website
+# Copy CV PDF to website (publications there are synced from the lab repo, not from here)
 copy: pdf
-    cp build/pdf/cv.pdf ./
     cp build/pdf/cv.pdf ../afrendeiro.github.io/
-    cp data/publications.csv ../afrendeiro.github.io/
-    cp data/publication_resources.csv ../afrendeiro.github.io/
 
 # Update website
 web: copy
-    cd ../afrendeiro.github.io/ && make web
+    cd ../afrendeiro.github.io/ && just web
 
 # Git commit and push changes
 up: copy
